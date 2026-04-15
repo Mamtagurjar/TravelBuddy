@@ -25,16 +25,18 @@
     min-height: 480px;
   }
 
-  // Dark gradient overlay for text readability
+  // Dual-sided dark vignette for text readability and cinematic focus
   &::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to right,
-      rgba(13, 21, 19, 0.7) 0%,
-      rgba(13, 21, 19, 0.4) 50%,
-      rgba(13, 21, 19, 0.1) 100%
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.4) 15%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5) 85%,
+      rgba(0, 0, 0, 0.9) 100%
     );
     z-index: 1;
   }
