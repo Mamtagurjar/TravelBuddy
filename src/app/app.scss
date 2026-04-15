@@ -1,0 +1,9 @@
+/**
+ * app.scss — Root component styles
+ * Keep this minimal. Global styles live in src/styles/
+ */
+:host {
+  display: block;
+  min-height: 100vh;
+  min-height: 100dvh;
+}

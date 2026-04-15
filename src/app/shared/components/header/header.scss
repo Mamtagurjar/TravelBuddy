@@ -1,0 +1,283 @@
+/**
+ * Header Styles
+ * =============
+ * Uses Ocean Breeze deep teal (#0F766E) as header background.
+ *
+ * Responsive behavior:
+ *  - Desktop: Two rows (top bar + nav tabs), all visible
+ *  - Mobile (<768px): Nav tabs hidden, hamburger menu toggles them
+ */
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.header {
+  background: $tb-teal-900;
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  box-shadow: $shadow-header;
+
+}
+
+.header__container {
+  @include container;
+  padding-top: $space-3;
+  padding-bottom: 1rem;
+}
+
+// ─── Top Bar ────────────────────────────────────────
+.header__top {
+  @include flex-between;
+  padding-bottom: $space-3;
+}
+
+.header__logo {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.header__logo-icon {
+  color: $tb-teal-300;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.header__logo-text {
+  font-family: $font-family-heading;
+  font-size: $font-size-xl; // Smaller on mobile
+  font-weight: $font-weight-bold;
+  color: $tb-white;
+  letter-spacing: $letter-spacing-tight;
+
+  @include sm {
+    font-size: $font-size-2xl;
+  }
+}
+
+// ─── Right-side Actions ─────────────────────────────
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+
+  @include sm {
+    gap: $space-2;
+  }
+}
+
+.header__action-btn {
+  @include flex-center;
+  background: transparent;
+  color: $tb-white;
+  border: none;
+  padding: $space-2;
+  border-radius: $radius-pill;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background $duration-fast $ease-default;
+  min-width: 36px;
+  height: 36px;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.header__flag {
+  font-size: $font-size-xl;
+}
+
+.header__help-icon {
+  @include flex-center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid $tb-white;
+  border-radius: $radius-circle;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+}
+
+.header__action-text {
+  color: $tb-white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: $space-2 $space-3;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  transition: background $duration-fast $ease-default;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  @include max-lg {
+     display: none;
+  }
+}
+
+// ─── Auth Buttons ───────────────────────────────────
+.header__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-2 $space-4;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $duration-fast $ease-default;
+  white-space: nowrap;
+}
+
+.header__btn--outline {
+  color: $tb-white;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: $tb-white;
+    text-decoration: none;
+    color: $tb-white;
+  }
+
+  @include max-sm {
+    display: none; // Only show one auth button on very small screens or none
+  }
+}
+
+.header__btn--solid {
+  color: $tb-teal-800;
+  background: $tb-white;
+  border: 1px solid $tb-white;
+
+  &:hover {
+    background: $tb-gray-100;
+    text-decoration: none;
+    color: $tb-teal-800;
+  }
+
+  @include max-sm {
+    padding: $space-2 $space-3;
+    font-size: $font-size-xs;
+  }
+}
+
+// ─── Navigation Tabs ────────────────────────────────
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+  padding-top: $space-2;
+  overflow-x: auto;
+  @include hide-scrollbar;
+
+  // Mobile: hidden by default, shown when hamburger toggled
+  @include max-md {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: $space-2 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+    &--open {
+      display: flex;
+    }
+  }
+}
+
+.header__tab {
+  @include flex-center;
+  gap: $space-2;
+  padding: $space-2 $space-4;
+  border-radius: $radius-pill;
+  color: $tb-white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all $duration-fast $ease-default;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    color: $tb-white;
+  }
+
+  // Active tab — white border pill (like booking.com)
+  &--active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: $tb-white;
+  }
+
+  @include max-md {
+    border-radius: $radius-sm;
+    justify-content: flex-start;
+    padding: $space-3 $space-4;
+    border: none;
+
+    &--active {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+    }
+  }
+}
+
+.header__tab-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+}
+
+.header__tab-label {
+  line-height: 1;
+}
+
+.header__hamburger {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  color: $tb-white;
+
+  mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+// ─── Responsive Visibility ──────────────────────────
+.hide-mobile {
+  @include max-md {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @include md {
+    display: none !important;
+  }
+}

@@ -1,0 +1,15 @@
+<div class="features-section">
+  <h2 class="section-title">Why TravelBuddy?</h2>
+  
+  <div class="features-grid">
+    @for (feature of features; track feature.title) {
+      <div class="feature-card">
+        <div class="feature-card__icon-wrapper" [style.background-color]="feature.color">
+          <mat-icon>{{ feature.icon }}</mat-icon>
+        </div>
+        <h3 class="feature-card__title">{{ feature.title }}</h3>
+        <p class="feature-card__desc">{{ feature.desc }}</p>
+      </div>
+    }
+  </div>
+</div>

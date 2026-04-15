@@ -1,0 +1,136 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.modal-overlay {
+  @include overlay;
+  @include flex-center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background: $tb-white;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: $radius-lg;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-xl;
+  animation: slideUp $duration-normal $ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+  @include flex-between;
+  padding: $space-4 $space-6;
+  
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin: 0;
+  }
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: $space-2;
+  border-radius: $radius-circle;
+  @include flex-center;
+  color: $color-text-secondary;
+  transition: background $duration-fast;
+
+  &:hover {
+    background: $color-bg-secondary;
+    color: $color-text-primary;
+  }
+}
+
+.modal-body {
+  padding: $space-4 $space-6 $space-8;
+  overflow-y: auto;
+  @include custom-scrollbar;
+}
+
+.lang-group-title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-4;
+  margin-top: 0;
+}
+
+.mt-8 {
+  margin-top: $space-8;
+}
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $space-2;
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include md {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.lang-btn {
+  @include flex-start;
+  gap: $space-3;
+  background: transparent;
+  border: none;
+  padding: $space-3;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  text-align: left;
+  transition: background $duration-fast;
+  position: relative; // Needed for absolutely positioning the checkmark
+  
+  &:hover {
+    background: $color-bg-secondary;
+  }
+
+  // Active state matching the reference perfectly
+  &.active {
+    background: $tb-teal-50; // Light tint matching the primary color
+    
+    .lang-name {
+      color: $tb-teal-800; // Bold primary color
+      font-weight: $font-weight-semibold;
+    }
+    
+    .check-icon {
+      color: $tb-teal-600;
+      position: absolute;
+      right: $space-3;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.lang-flag-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+.lang-name {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  flex: 1; // Allows it to push the absolutely positioned checkmark if needed
+}

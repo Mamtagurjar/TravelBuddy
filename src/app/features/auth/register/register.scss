@@ -1,0 +1,5 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Reuse the same styles as login for consistency
+@import '../login/login.scss';

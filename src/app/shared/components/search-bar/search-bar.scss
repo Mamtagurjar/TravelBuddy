@@ -1,0 +1,167 @@
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.search-bar {
+  position: relative;
+  z-index: $z-raised;
+  max-width: $container-xl;
+  margin: 0 auto;
+  padding: 0 $space-4;
+
+  @include md {
+    padding: 0 $space-6;
+  }
+}
+
+.search-bar__form {
+  display: flex;
+  align-items: stretch;
+  background: $tb-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+  border: 3px solid $tb-teal-500;
+
+  // Tablet: 2x2 grid
+  @include max-lg {
+    flex-wrap: wrap;
+  }
+
+  // Mobile/Tablet: vertical stack
+  @include max-md {
+    flex-direction: column;
+    border-radius: $radius-md;
+  }
+}
+
+// ─── Individual Fields ──────────────────────────────
+.search-bar__field {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-right: 1px solid $color-border-light;
+  flex: 1;
+  min-width: 0;
+
+  &:last-of-type {
+    border-right: none;
+  }
+
+  @include max-lg {
+    flex: 1 1 45%;
+    border-bottom: 1px solid $color-border-light;
+  }
+
+  @include max-md {
+    flex: 1 1 100%;
+    border-right: none;
+    border-bottom: 1px solid $color-border-light;
+    padding: $space-4;
+  }
+}
+
+.search-bar__field--destination {
+  flex: 1.3;
+}
+
+.search-bar__field--dates {
+  flex: 1.4;
+}
+
+.search-bar__field--guests {
+  flex: 1.3;
+
+  @include max-lg {
+    border-right: none;
+  }
+}
+
+.search-bar__icon {
+  font-size: $font-size-xl;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.search-bar__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: $font-size-sm;
+  font-family: $font-family-base;
+  color: $color-text-primary;
+  background: transparent;
+  min-width: 0;
+  padding: 0;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+
+  @include md {
+    font-size: $font-size-base;
+  }
+}
+
+.search-bar__separator {
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  padding: 0 $space-1;
+  flex-shrink: 0;
+}
+
+.search-bar__chevron {
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  flex-shrink: 0;
+}
+
+// ─── Search Button ──────────────────────────────────
+.search-bar__btn {
+  @include flex-center;
+  background: $color-accent;
+  color: $tb-white;
+  border: none;
+  padding: $space-4 $space-8;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-base;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background $duration-fast $ease-default;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $tb-coral-600;
+  }
+
+  &:active {
+    background: $tb-coral-600;
+    transform: scale(0.98);
+  }
+
+  @include max-md {
+    width: 100%;
+    padding: $space-4;
+    border-radius: 0 0 calc($radius-md - 3px) calc($radius-md - 3px);
+  }
+}
+
+// ─── Flights Checkbox ───────────────────────────────
+.search-bar__checkbox {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-3;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    accent-color: $color-primary-light;
+    cursor: pointer;
+  }
+}

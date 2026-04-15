@@ -1,0 +1,130 @@
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 320px;
+  background-image: url('/images/hero-beach.png');
+  background-size: cover;
+  background-position: center 40%;  
+  background-repeat: no-repeat;
+  padding-bottom: $space-12;
+
+  @include sm {
+    padding-bottom: $space-16;
+  }
+
+  @include md {
+    min-height: 380px;
+    padding-bottom: $space-20;
+  }
+
+  @include lg {
+    min-height: 480px;
+  }
+
+  // Dark gradient overlay for text readability
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(13, 21, 19, 0.7) 0%,
+      rgba(13, 21, 19, 0.4) 50%,
+      rgba(13, 21, 19, 0.1) 100%
+    );
+    z-index: 1;
+  }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: $container-xl;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $space-4;
+
+  @include md {
+    padding: 0 $space-6;
+  }
+
+  @include xl {
+    padding: 0 $space-8;
+  }
+}
+
+.hero__badge {
+  display: inline-block;
+  font-family: $font-family-heading;
+  font-size: 20px; // Exact match to user screenshot
+  font-weight: $font-weight-semibold;
+  color: $tb-white;
+  margin-bottom: 9px; // Exact match to user screenshot
+  margin-top: 4rem;
+  letter-spacing: $letter-spacing-wide;
+}
+
+.hero__title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl; // 24px for very small mobile
+  font-weight: $font-weight-bold;
+  color: $tb-white;
+  line-height: $line-height-tight;
+  margin-bottom: $space-3;
+  max-width: 600px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  @include sm {
+    font-size: $font-size-3xl; // 30px
+  }
+
+  @include md {
+    font-size: $font-size-4xl;
+  }
+
+  @include lg {
+    font-size: 48px; // Exact match to user screenshot
+    margin-bottom: $space-4;
+  }
+}
+
+.hero__subtitle {
+  font-family: $font-family-heading;
+  font-size: 24px; // Exact match to user screenshot
+  font-weight: $font-weight-normal;
+  color: $tb-white;
+  margin-top: 4px; // Exact match to user screenshot
+  margin-bottom: $space-8;
+  max-width: 600px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-3 $space-6;
+  background: #006ce4; // Standard Booking blue
+  color: $tb-white;
+  font-family: $font-family-base;
+  font-size: 16px; // Exact match to user screenshot
+  font-weight: $font-weight-medium;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  transition: all $duration-fast $ease-default;
+
+  &:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: $tb-white;
+    text-decoration: none;
+  }
+
+  @include md {
+    padding: $space-3 $space-8;
+  }
+}

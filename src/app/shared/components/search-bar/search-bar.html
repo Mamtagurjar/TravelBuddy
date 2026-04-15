@@ -1,0 +1,75 @@
+<div class="search-bar" id="search-bar">
+  <form class="search-bar__form" (ngSubmit)="onSearch()" id="search-form">
+
+    <!-- Destination -->
+    <div class="search-bar__field search-bar__field--destination">
+      <mat-icon class="search-bar__icon">hotel</mat-icon>
+      <input
+        type="text"
+        class="search-bar__input"
+        id="destination-input"
+        placeholder="Where are you going?"
+        [ngModel]="destination()"
+        (ngModelChange)="destination.set($event)"
+        name="destination"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Check-in / Check-out Dates -->
+    <div class="search-bar__field search-bar__field--dates">
+      <mat-icon class="search-bar__icon">calendar_month</mat-icon>
+      <input
+        type="text"
+        class="search-bar__input"
+        id="checkin-input"
+        placeholder="Check-in date"
+        [ngModel]="checkIn()"
+        (ngModelChange)="checkIn.set($event)"
+        name="checkIn"
+        onfocus="(this.type='date')"
+        onblur="(this.type='text')"
+      />
+      <span class="search-bar__separator">—</span>
+      <input
+        type="text"
+        class="search-bar__input"
+        id="checkout-input"
+        placeholder="Check-out date"
+        [ngModel]="checkOut()"
+        (ngModelChange)="checkOut.set($event)"
+        name="checkOut"
+        onfocus="(this.type='date')"
+        onblur="(this.type='text')"
+      />
+    </div>
+
+    <!-- Guests -->
+    <div class="search-bar__field search-bar__field--guests">
+      <mat-icon class="search-bar__icon">person</mat-icon>
+      <input
+        type="text"
+        class="search-bar__input"
+        id="guests-input"
+        [ngModel]="guests()"
+        (ngModelChange)="guests.set($event)"
+        name="guests"
+        readonly
+      />
+      <mat-icon class="search-bar__chevron">expand_more</mat-icon>
+    </div>
+
+    <!-- Search Button -->
+    <button type="submit" class="search-bar__btn" id="search-btn">
+      <mat-icon class="search-bar__btn-icon">search</mat-icon>
+      Search
+    </button>
+
+  </form>
+
+  <!-- Add flights checkbox -->
+  <label class="search-bar__checkbox" id="flights-checkbox">
+    <input type="checkbox" />
+    <span>Add flights to my search</span>
+  </label>
+</div>

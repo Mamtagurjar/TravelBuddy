@@ -1,0 +1,14 @@
+<div class="property-types-section">
+  <h2 class="section-title">Browse by property type</h2>
+  
+  <div class="property-carousel">
+    @for (property of properties; track property.name) {
+      <div class="property-card">
+        <div class="property-card__image-wrapper">
+          <img [src]="property.image" [alt]="property.name" class="property-card__img" />
+        </div>
+        <h3 class="property-card__title">{{ property.name }}</h3>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,29 @@
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.home-page {
+  min-height: 100vh;
+  background: $color-bg-secondary;
+}
+
+.home-page__search {
+  // Pull search bar UP to overlap the hero image
+  margin-top: -$space-8;
+  position: relative;
+  z-index: $z-raised;
+  padding-bottom: $space-4;
+
+  @include md {
+    margin-top: -$space-10;
+  }
+
+  @include lg {
+    margin-top: -$space-12;
+  }
+}
+
+.home-page__content {
+  @include container;
+  padding-bottom: $space-16;
+}

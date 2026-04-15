@@ -1,0 +1,86 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: $tb-white;
+  padding: $space-8;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-2;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    margin-bottom: $space-8;
+  }
+
+  &__footer {
+    margin-top: $space-8;
+    text-align: center;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    padding-top: $space-6;
+    border-top: 1px solid $color-border-light;
+
+    .auth-link {
+      margin-left: $space-1;
+      color: $color-primary;
+      font-weight: $font-weight-bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.form-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.form-input {
+  @include input-base; // Uses our base input mixin
+
+  &.is-invalid {
+    border-color: $color-danger;
+    background-color: $tb-red-50;
+  }
+}
+
+.error-text {
+  font-size: $font-size-xs;
+  color: $color-danger;
+  font-weight: $font-weight-medium;
+}
+
+.auth-btn {
+  @include btn-primary;
+  width: 100%;
+  padding: $space-4;
+  font-size: $font-size-base;
+  margin-top: $space-2;
+}

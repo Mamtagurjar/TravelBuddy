@@ -1,0 +1,126 @@
+// ================================================================
+//  TravelBuddy — Typography Global Styles
+// ================================================================
+@use 'variables' as *;
+
+// ─── Headings ─────────────────────────────────────────────────
+h1, .h1 {
+  font-family: $font-family-heading;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-tight;
+  color: $color-text-primary;
+
+  @media (min-width: $bp-md) {
+    font-size: $font-size-5xl;
+  }
+}
+
+h2, .h2 {
+  font-family: $font-family-heading;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-tight;
+  color: $color-text-primary;
+}
+
+h3, .h3 {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+h4, .h4 {
+  font-family: $font-family-heading;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+h5, .h5 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+h6, .h6 {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-secondary;
+}
+
+// ─── Body / Paragraph ─────────────────────────────────────────
+p {
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}
+
+.text-lead {
+  font-size: $font-size-xl;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.text-body {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+}
+
+.text-small {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.text-caption {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.text-overline {
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wider;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+// ─── Links ────────────────────────────────────────────────────
+a,
+.link {
+  color: $color-primary-light;
+  text-decoration: none;
+  transition: color $duration-fast $ease-default;
+
+  &:hover {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+}
+
+.link-muted {
+  color: $color-text-muted;
+
+  &:hover {
+    color: $color-text-primary;
+  }
+}
+
+// ─── Selection ────────────────────────────────────────────────
+strong, b {
+  font-weight: $font-weight-semibold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+mark {
+  background: $tb-sand-200;
+  padding: 0 $space-1;
+  border-radius: $radius-xs;
+}

@@ -1,0 +1,103 @@
+<footer class="footer">
+  <div class="footer__container">
+    
+    <!-- Top section: Link columns -->
+    <div class="footer__links-grid">
+      
+      <!-- Column 1: Support -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Support</h3>
+        <ul class="footer__list">
+          <li><a href="#">Manage your trips</a></li>
+          <li><a href="#">Contact Customer Service</a></li>
+          <li><a href="#">Safety Resource Center</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Discover -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Discover</h3>
+        <ul class="footer__list">
+          <li><a href="#">Genius loyalty program</a></li>
+          <li><a href="#">Seasonal and holiday deals</a></li>
+          <li><a href="#">Travel articles</a></li>
+          <li><a href="#">TravelBuddy for Business</a></li>
+          <li><a href="#">Traveller Review Awards</a></li>
+          <li><a href="#">Car rental</a></li>
+          <li><a href="#">Flight finder</a></li>
+          <li><a href="#">Restaurant reservations</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Terms and settings -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Terms and settings</h3>
+        <ul class="footer__list">
+          <li><a href="#">Privacy Notice</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Accessibility Statement</a></li>
+          <li><a href="#">Grievance officer</a></li>
+          <li><a href="#">Modern Slavery Statement</a></li>
+          <li><a href="#">Human Rights Statement</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Partners -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Partners</h3>
+        <ul class="footer__list">
+          <li><a href="#">Extranet login</a></li>
+          <li><a href="#">Partner help</a></li>
+          <li><a href="#">List your property</a></li>
+          <li><a href="#">Become an affiliate</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: About -->
+      <div class="footer__column">
+        <h3 class="footer__heading">About</h3>
+        <ul class="footer__list">
+          <li><a href="#">About TravelBuddy.com</a></li>
+          <li><a href="#">How We Work</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press center</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Investor relations</a></li>
+          <li><a href="#">Corporate contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Middle section: Country / Currency -->
+    <div class="footer__locale">
+      <button class="footer__btn" (click)="openLanguageModal()">
+        <img src="https://flagcdn.com/w40/in.png" alt="IND" class="footer__flag-img" />
+        <span class="footer__currency">INR</span>
+      </button>
+    </div>
+
+    <!-- Bottom section: Copyright and logos -->
+    <div class="footer__bottom">
+      <p class="footer__text">
+        TravelBuddy is part of Travel Holdings Inc., the world leader in online travel and related services.
+      </p>
+      <p class="footer__text">
+        Copyright &copy; 1996&ndash;{{ currentYear }} TravelBuddy&trade;. All rights reserved.
+      </p>
+      
+      <!-- Brand Logos Simulated via CSS -->
+      <div class="footer__brands">
+        <span class="brand brand--booking">Booking.com</span>
+        <span class="brand brand--priceline">priceline<span class="sup">&reg;</span></span>
+        <span class="brand brand--kayak">K A Y A K</span>
+        <span class="brand brand--agoda">agoda<span class="dots">.....</span></span>
+        <span class="brand brand--opentable"><span class="dot">●</span> OpenTable</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Language Selection Modal -->
+@if (isLanguageModalOpen()) {
+  <app-language-modal (close)="closeLanguageModal()" />
+}

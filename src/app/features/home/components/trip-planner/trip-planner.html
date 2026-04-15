@@ -1,0 +1,29 @@
+<div class="trip-planner-section">
+  <div class="trip-planner-header">
+    <h2 class="section-title">Quick and easy trip planner</h2>
+    <p class="section-subtitle">Pick a vibe and explore the top destinations</p>
+  </div>
+
+  <div class="trip-planner-tabs">
+    @for (tab of tabs; track tab) {
+      <button 
+        class="tab-btn" 
+        [class.tab-btn--active]="activeTab() === tab"
+        (click)="selectTab(tab)">
+        {{ tab }}
+      </button>
+    }
+  </div>
+
+  <div class="destinations-carousel">
+    @for (dest of destinations; track dest.name) {
+      <div class="destination-card">
+        <div class="destination-card__image-wrapper">
+          <img [src]="dest.image" [alt]="dest.name" class="destination-card__img" />
+        </div>
+        <h3 class="destination-card__title">{{ dest.name }}</h3>
+        <p class="destination-card__desc">{{ dest.distance }}</p>
+      </div>
+    }
+  </div>
+</div>

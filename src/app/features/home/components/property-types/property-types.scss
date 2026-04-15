@@ -1,0 +1,53 @@
+@use 'sass:math';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.property-types-section {
+  padding: $space-8 0;
+}
+
+.section-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-6;
+}
+
+.property-carousel {
+  display: flex;
+  gap: $space-4;
+  overflow-x: auto;
+  padding-bottom: $space-4;
+  @include hide-scrollbar;
+ // Uses our mixin from mixins.scss
+}
+
+.property-card {
+  flex: 0 0 240px;
+  cursor: pointer;
+
+  &:hover .property-card__img {
+    transform: scale(1.05);
+  }
+}
+
+.property-card__image-wrapper {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  margin-bottom: $space-2;
+  @include aspect-ratio(math.div(3, 2)); 
+}
+
+.property-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $duration-normal $ease-out;
+}
+
+.property-card__title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}

@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+// ================================================================
+//  TravelBuddy — Global Styles Entry Point
+//  Import order matters: tokens → reset → typography → components → utilities
+// ================================================================
+
+// 1. Design Tokens (variables only — no CSS output)
+@use 'styles/variables' as *;
+
+// 2. Mixins (no CSS output)
+@use 'styles/mixins' as *;
+
+// 3. CSS Reset
+@use 'styles/reset';
+
+// 4. Animations (keyframes)
+@use 'styles/animations';
+
+// 5. Typography (global heading, paragraph, link styles)
+@use 'styles/typography';
+
+// 6. Component Classes (buttons, cards, inputs, badges, etc.)
+@use 'styles/components';
+
+// 7. Utility Classes (spacing, flex, text, visibility helpers)
+@use 'styles/utilities';
+
+// ─── Google Fonts ─────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Outfit:wght@400;500;600;700&display=swap');
+
+// ─── Root-Level Base Styles ───────────────────────────────────
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  color: $color-text-primary;
+  background-color: $color-bg-secondary;
+  line-height: $line-height-normal;
+  @include custom-scrollbar;
+}
+
+// ─── App Root ─────────────────────────────────────────────────
+app-root {
+  display: block;
+  min-height: 100vh;
+  min-height: 100dvh;
+}

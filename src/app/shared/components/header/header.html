@@ -1,0 +1,71 @@
+<header class="header" id="main-header">
+  <div class="header__container">
+
+    <!-- Top Bar -->
+    <div class="header__top">
+      <a routerLink="/" class="header__logo" id="logo-link">
+        <mat-icon class="header__logo-icon">travel_explore</mat-icon>
+        <span class="header__logo-text">TravelBuddy</span>
+      </a>
+
+      <div class="header__actions">
+        <button class="header__action-btn hide-mobile" id="currency-btn">
+          <span>INR</span>
+        </button>
+        <button class="header__action-btn header__flag" id="flag-btn" (click)="openLanguageModal()">
+          <img src="https://flagcdn.com/w40/in.png" alt="IND" class="nav-flag-img" />
+        </button>
+        <button class="header__action-btn hide-mobile" id="help-btn">
+          <mat-icon>help_outline</mat-icon>
+        </button>
+        <span class="header__action-text hide-mobile" id="list-property-link">
+          List your property
+        </span>
+        <a routerLink="/auth/register" class="header__btn header__btn--outline" id="register-btn">
+          Register
+        </a>
+        <a routerLink="/auth/login" class="header__btn header__btn--solid" id="signin-btn">
+          Sign in
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          class="header__hamburger hide-desktop"
+          id="hamburger-btn"
+          (click)="toggleMobileMenu()"
+          [attr.aria-expanded]="isMobileMenuOpen()"
+          aria-label="Toggle navigation menu"
+        >
+          <mat-icon>{{ isMobileMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav
+      class="header__nav"
+      [class.header__nav--open]="isMobileMenuOpen()"
+      id="main-nav"
+      aria-label="Main navigation"
+    >
+      @for (tab of navTabs(); track tab.label) {
+        <a
+          class="header__tab"
+          [routerLink]="tab.route"
+          routerLinkActive="header__tab--active"
+          [routerLinkActiveOptions]="{ exact: tab.exact }"
+          (click)="isMobileMenuOpen.set(false)"
+        >
+          <mat-icon class="header__tab-icon">{{ tab.icon }}</mat-icon>
+          <span class="header__tab-label">{{ tab.label }}</span>
+        </a>
+      }
+    </nav>
+
+  </div>
+</header>
+
+<!-- Language Selection Modal -->
+@if (isLanguageModalOpen()) {
+  <app-language-modal (close)="closeLanguageModal()" />
+}

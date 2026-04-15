@@ -1,0 +1,53 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Select your language</h2>
+      <button class="close-btn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Body content -->
+    <div class="modal-body">
+      
+      <!-- Suggested row -->
+      <h3 class="lang-group-title">Suggested for you</h3>
+      <div class="lang-grid">
+        @for (lang of suggestedLanguages; track lang.name) {
+          <button 
+            class="lang-btn" 
+            [class.active]="selectedLang === lang.name"
+            (click)="selectLanguage(lang.name)"
+          >
+            <img [src]="'https://flagcdn.com/w40/' + lang.flag + '.png'" [alt]="lang.name" class="lang-flag-img" />
+            <span class="lang-name">{{ lang.name }}</span>
+            @if (selectedLang === lang.name) {
+              <mat-icon class="check-icon">check</mat-icon>
+            }
+          </button>
+        }
+      </div>
+
+      <!-- All languages grid -->
+      <h3 class="lang-group-title mt-8">All languages</h3>
+      <div class="lang-grid">
+        @for (lang of allLanguages; track lang.name) {
+          <button 
+            class="lang-btn" 
+            [class.active]="selectedLang === lang.name"
+            (click)="selectLanguage(lang.name)"
+          >
+            <img [src]="'https://flagcdn.com/w40/' + lang.flag + '.png'" [alt]="lang.name" class="lang-flag-img" />
+            <span class="lang-name">{{ lang.name }}</span>
+            @if (selectedLang === lang.name) {
+              <mat-icon class="check-icon">check</mat-icon>
+            }
+          </button>
+        }
+      </div>
+      
+    </div>
+  </div>
+</div>

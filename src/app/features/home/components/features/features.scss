@@ -1,0 +1,70 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.features-section {
+  padding: $space-8 0;
+}
+
+.section-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.feature-card {
+  background: $tb-white;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-md;
+  padding: $space-5;
+  transition: box-shadow $duration-fast $ease-default, transform $duration-fast $ease-default;
+
+  &:hover {
+    box-shadow: $shadow-card;
+    transform: translateY(-2px);
+  }
+}
+
+.feature-card__icon-wrapper {
+  @include flex-center;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-circle;
+  color: $tb-white;
+  margin-bottom: $space-4;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.feature-card__title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-2;
+  line-height: $line-height-tight;
+}
+
+.feature-card__desc {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}

@@ -1,0 +1,154 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.footer {
+  background: $color-bg-secondary;
+  border-top: 1px solid $color-border-light;
+  padding-top: $space-10;
+  padding-bottom: $space-8;
+}
+
+.footer__container {
+  @include container;
+}
+
+.footer__links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-8;
+  margin-bottom: $space-8;
+
+  @include md {
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-6;
+  }
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__heading {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-4;
+}
+
+.footer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    margin-bottom: $space-3;
+  }
+  
+  a {
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+      color: $color-text-primary;
+    }
+  }
+}
+
+.footer__locale {
+  margin-bottom: $space-8;
+  
+  .footer__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-base;
+    color: $color-text-primary;
+    padding: 0;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .footer__flag-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.footer__bottom {
+  border-top: 1px solid $color-border-light;
+  padding-top: $space-8;
+  text-align: center;
+}
+
+.footer__text {
+  font-size: 11px;
+  color: $color-text-secondary;
+  margin-bottom: $space-1;
+}
+
+.footer__brands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: $space-6;
+  margin-top: $space-6;
+  
+  .brand {
+    font-family: Arial, sans-serif; // Keep basic fonts for logos
+    font-weight: $font-weight-bold;
+    font-size: 14px;
+    letter-spacing: -0.5px;
+    user-select: none;
+  }
+  
+  .brand--booking { 
+    color: #003580; 
+    font-size: 18px; 
+  }
+  .brand--priceline { 
+    color: #0087F5; // Priceline Blue
+    font-size: 20px; 
+    font-weight: 800; 
+    .sup { font-size: 10px; vertical-align: super; } 
+  }
+  .brand--kayak { 
+    background: #FF690F; // Kayak Orange
+    color: white; 
+    padding: 4px 6px; 
+    font-size: 14px; 
+    letter-spacing: 3px; 
+    border-radius: 2px;
+  }
+  .brand--agoda { 
+    color: #333; 
+    font-size: 18px;
+    .dots { 
+      background: -webkit-linear-gradient(0deg, #d32f2f, #fbc02d, #388e3c, #1976d2, #7b1fa2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 20px; 
+      letter-spacing: 2px; 
+      line-height: 0;
+    } 
+  }
+  .brand--opentable { 
+    color: #333; 
+    font-weight: 600; 
+    .dot { color: #DA3743; font-size: 18px; } 
+  }
+}

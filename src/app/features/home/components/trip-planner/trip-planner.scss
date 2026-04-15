@@ -1,0 +1,100 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.trip-planner-section {
+  padding: $space-8 0;
+}
+
+.trip-planner-header {
+  margin-bottom: $space-6;
+}
+
+.section-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-1;
+}
+
+.section-subtitle {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+}
+
+.trip-planner-tabs {
+  display: flex;
+  gap: $space-4;
+  overflow-x: auto;
+  margin-bottom: $space-6;
+  @include hide-scrollbar;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  padding: $space-2 $space-4;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all $duration-fast $ease-default;
+
+  &:hover {
+    background: $color-bg-secondary;
+  }
+
+  &--active {
+    color: $tb-teal-700;
+    border: 1px solid $tb-teal-700;
+    background: $tb-teal-50;
+
+    &:hover {
+      background: $tb-teal-50;
+    }
+  }
+}
+
+.destinations-carousel {
+  display: flex;
+  gap: $space-4;
+  overflow-x: auto;
+  padding-bottom: $space-4;
+  @include hide-scrollbar;
+}
+
+.destination-card {
+  flex: 0 0 200px;
+  cursor: pointer;
+
+  &:hover .destination-card__img {
+    transform: scale(1.05);
+  }
+}
+
+.destination-card__image-wrapper {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  margin-bottom: $space-2;
+  @include aspect-ratio(1); // 1:1 aspect ratio
+}
+
+.destination-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $duration-normal $ease-out;
+}
+
+.destination-card__title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.destination-card__desc {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}

@@ -1,0 +1,17 @@
+/**
+ * Main Layout Styles
+ * ==================
+ * Ensures the layout takes full viewport height
+ * and content area fills remaining space below the header.
+ */
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main-layout__content {
+  flex: 1;
+}

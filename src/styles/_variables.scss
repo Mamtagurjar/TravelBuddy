@@ -1,0 +1,247 @@
+// ================================================================
+//  TravelBuddy — Design Tokens (🌊 Ocean Breeze Palette)
+// ================================================================
+
+// ─── Teal (Primary) ───────────────────────────────────────────
+$tb-teal-900:       #134E4A;   // Deepest teal (header, hero bg)
+$tb-teal-800:       #115E56;
+$tb-teal-700:       #0F766E;   // Primary dark (CTAs, headings)
+$tb-teal-600:       #0D9488;   // Primary action teal
+$tb-teal-500:       #14B8A6;   // Primary brand teal
+$tb-teal-400:       #2DD4BF;
+$tb-teal-300:       #5EEAD4;
+$tb-teal-200:       #99F6E4;
+$tb-teal-100:       #CCFBF1;
+$tb-teal-50:        #F0FDFA;   // Lightest teal bg
+
+// ─── Coral / Orange (Accent) ─────────────────────────────────
+$tb-coral-600:      #EA580C;
+$tb-coral-500:      #F97316;   // Accent coral-orange
+$tb-coral-400:      #FB923C;
+$tb-coral-300:      #FDBA74;
+$tb-coral-200:      #FED7AA;
+$tb-coral-100:      #FFEDD5;
+$tb-coral-50:       #FFF7ED;
+
+// ─── Sandy / Warm (Highlights) ───────────────────────────────
+$tb-sand-500:       #D97706;   // Warm amber
+$tb-sand-400:       #F59E0B;
+$tb-sand-300:       #FBBF24;
+$tb-sand-200:       #FDE68A;   // Sandy beige
+$tb-sand-100:       #FEF3C7;
+$tb-sand-50:        #FFFBEB;
+
+// ─── Green (Success / Deals) ─────────────────────────────────
+$tb-green-700:      #15803D;
+$tb-green-600:      #059669;
+$tb-green-500:      #10B981;   // Success green
+$tb-green-400:      #34D399;
+$tb-green-300:      #6EE7B7;
+$tb-green-200:      #A7F3D0;
+$tb-green-100:      #D1FAE5;
+$tb-green-50:       #ECFDF5;
+
+// ─── Rose / Red (Danger / Urgency) ───────────────────────────
+$tb-red-700:        #BE123C;
+$tb-red-600:        #E11D48;   // Danger rose
+$tb-red-500:        #F43F5E;   // Rose red
+$tb-red-400:        #FB7185;
+$tb-red-300:        #FDA4AF;
+$tb-red-200:        #FECDD3;
+$tb-red-100:        #FFE4E6;
+$tb-red-50:         #FFF1F2;
+
+// ─── Sky Blue (Info) ─────────────────────────────────────────
+$tb-sky-600:        #0284C7;
+$tb-sky-500:        #0EA5E9;
+$tb-sky-400:        #38BDF8;
+$tb-sky-300:        #7DD3FC;
+$tb-sky-100:        #E0F2FE;
+$tb-sky-50:         #F0F9FF;
+
+// ─── Neutrals (warm-tinted) ──────────────────────────────────
+$tb-white:          #FFFFFF;
+$tb-gray-25:        #FAFBFA;
+$tb-gray-50:        #F5F7F6;
+$tb-gray-100:       #E8ECEB;
+$tb-gray-200:       #D5DCDA;
+$tb-gray-300:       #B0BBB8;
+$tb-gray-400:       #7F8E8A;
+$tb-gray-500:       #5F6E6A;
+$tb-gray-600:       #475551;
+$tb-gray-700:       #2F3B38;
+$tb-gray-800:       #1A2421;
+$tb-gray-900:       #0D1513;
+$tb-black:          #000000;
+
+// ─── Semantic Aliases ─────────────────────────────────────────
+$color-primary:         $tb-teal-700;
+$color-primary-light:   $tb-teal-500;
+$color-primary-lighter: $tb-teal-100;
+$color-accent:          $tb-coral-500;
+$color-accent-light:    $tb-coral-100;
+$color-success:         $tb-green-500;
+$color-success-bg:      $tb-green-50;
+$color-warning:         $tb-sand-500;
+$color-warning-bg:      $tb-sand-50;
+$color-danger:          $tb-red-600;
+$color-danger-bg:       $tb-red-50;
+$color-info:            $tb-sky-500;
+$color-info-bg:         $tb-sky-50;
+
+$color-text-primary:    $tb-gray-800;
+$color-text-secondary:  $tb-gray-600;
+$color-text-muted:      $tb-gray-400;
+$color-text-inverse:    $tb-white;
+
+$color-bg-primary:      $tb-white;
+$color-bg-secondary:    $tb-gray-50;
+$color-bg-tertiary:     $tb-teal-50;   // Sea foam tinted bg
+$color-bg-dark:         $tb-teal-900;
+$color-bg-overlay:      rgba(13, 21, 19, 0.6);
+
+$color-border:          $tb-gray-200;
+$color-border-light:    $tb-gray-100;
+$color-border-focus:    $tb-teal-500;
+
+// ─── Typography ───────────────────────────────────────────────
+$font-family-base:     BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-heading:  "Avenir Next", BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-mono:     'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+$font-size-2xs:  0.625rem;   // 10px
+$font-size-xs:   0.75rem;    // 12px
+$font-size-sm:   0.875rem;   // 14px
+$font-size-base: 1rem;       // 16px
+$font-size-lg:   1.125rem;   // 18px
+$font-size-xl:   1.25rem;    // 20px
+$font-size-2xl:  1.5rem;     // 24px
+$font-size-3xl:  1.875rem;   // 30px
+$font-size-4xl:  2.25rem;    // 36px
+$font-size-5xl:  3rem;       // 48px
+$font-size-6xl:  3.75rem;    // 60px
+
+$line-height-tight:  1.2;
+$line-height-normal: 1.5;
+$line-height-loose:  1.75;
+
+$font-weight-light:    300;
+$font-weight-normal:   400;
+$font-weight-medium:   500;
+$font-weight-semibold: 600;
+$font-weight-bold:     700;
+$font-weight-black:    900;
+
+$letter-spacing-tight:  -0.025em;
+$letter-spacing-normal: 0em;
+$letter-spacing-wide:   0.025em;
+$letter-spacing-wider:  0.05em;
+
+// ─── Spacing (4px base grid) ──────────────────────────────────
+$space-0:   0;
+$space-1:   0.25rem;   // 4px
+$space-2:   0.5rem;    // 8px
+$space-3:   0.75rem;   // 12px
+$space-4:   1rem;      // 16px
+$space-5:   1.25rem;   // 20px
+$space-6:   1.5rem;    // 24px
+$space-8:   2rem;      // 32px
+$space-10:  2.5rem;    // 40px
+$space-12:  3rem;      // 48px
+$space-14:  3.5rem;    // 56px
+$space-16:  4rem;      // 64px
+$space-20:  5rem;      // 80px
+$space-24:  6rem;      // 96px
+$space-32:  8rem;      // 128px
+
+// ─── Border Radius ────────────────────────────────────────────
+$radius-xs:   2px;
+$radius-sm:   4px;
+$radius-md:   8px;
+$radius-lg:   12px;
+$radius-xl:   16px;
+$radius-2xl:  24px;
+$radius-pill: 9999px;
+$radius-circle: 50%;
+
+// ─── Shadows (elevated card-heavy UI) ─────────────────────────
+$shadow-xs:    0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-sm:    0 2px 4px rgba(0, 0, 0, 0.06);
+$shadow-md:    0 4px 12px rgba(0, 0, 0, 0.08);
+$shadow-lg:    0 8px 24px rgba(0, 0, 0, 0.1);
+$shadow-xl:    0 16px 48px rgba(0, 0, 0, 0.12);
+$shadow-2xl:   0 24px 64px rgba(0, 0, 0, 0.16);
+$shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+// Card-specific shadows (teal-tinted)
+$shadow-card:       0 2px 8px rgba(15, 118, 110, 0.06);
+$shadow-card-hover: 0 4px 16px rgba(15, 118, 110, 0.14);
+$shadow-search-bar: 0 2px 16px rgba(15, 118, 110, 0.16);
+$shadow-dropdown:   0 4px 18px rgba(0, 0, 0, 0.15);
+$shadow-header:     0 2px 8px rgba(15, 118, 110, 0.08);
+
+// ─── Breakpoints ──────────────────────────────────────────────
+$bp-xs:   375px;
+$bp-sm:   576px;
+$bp-md:   768px;
+$bp-lg:   1024px;
+$bp-xl:   1280px;
+$bp-2xl:  1440px;
+$bp-3xl:  1920px;
+
+// ─── Container Widths ─────────────────────────────────────────
+$container-sm:  540px;
+$container-md:  720px;
+$container-lg:  960px;
+$container-xl:  1140px;
+$container-2xl: 1320px;
+
+// ─── Transitions ──────────────────────────────────────────────
+$ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
+$ease-in:       cubic-bezier(0.4, 0, 1, 1);
+$ease-out:      cubic-bezier(0, 0, 0.2, 1);
+$ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+$ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+$duration-instant: 100ms;
+$duration-fast:    150ms;
+$duration-normal:  250ms;
+$duration-slow:    400ms;
+$duration-slower:  600ms;
+
+// ─── Z-Index Scale ────────────────────────────────────────────
+$z-behind:    -1;
+$z-base:      0;
+$z-raised:    10;
+$z-dropdown:  100;
+$z-sticky:    200;
+$z-header:    300;
+$z-overlay:   400;
+$z-modal:     500;
+$z-popover:   600;
+$z-tooltip:   700;
+$z-toast:     800;
+$z-max:       9999;
+
+// ─── Booking-Specific Tokens ──────────────────────────────────
+$header-height:        64px;
+$header-height-mobile: 56px;
+$search-bar-height:    60px;
+$sidebar-width:        280px;
+$footer-height:        auto;
+$card-border-radius:   $radius-md;
+$card-padding:         $space-4;
+$input-height:         48px;
+$input-height-sm:      36px;
+$input-height-lg:      56px;
+
+// ─── Rating Stars ─────────────────────────────────────────────
+$color-star:           $tb-sand-400;   // Warm amber stars
+$color-star-empty:     $tb-gray-200;
+
+// ─── Review Score Badge Colors (teal scale) ───────────────────
+$score-exceptional:    $tb-teal-900;
+$score-wonderful:      $tb-teal-700;
+$score-very-good:      $tb-teal-600;
+$score-good:           $tb-teal-500;
+$score-pleasant:       $tb-teal-400;

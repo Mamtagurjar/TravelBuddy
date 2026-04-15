@@ -1,0 +1,523 @@
+// ================================================================
+//  TravelBuddy — Global Component Classes
+//  Pre-built CSS classes for common UI patterns
+// ================================================================
+@use 'sass:math';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ═══════════════════════════════════════════════════════════════
+//  BUTTONS
+// ═══════════════════════════════════════════════════════════════
+.btn {
+  @include btn-base;
+}
+
+.btn-primary {
+  @include btn-primary;
+}
+
+.btn-secondary {
+  @include btn-secondary;
+}
+
+.btn-accent {
+  @include btn-accent;
+}
+
+.btn-danger {
+  @include btn-danger;
+}
+
+.btn-ghost {
+  @include btn-ghost;
+}
+
+.btn-sm {
+  height: $input-height-sm;
+  padding: $space-2 $space-3;
+  font-size: $font-size-xs;
+}
+
+.btn-lg {
+  height: $input-height;
+  padding: $space-4 $space-6;
+  font-size: $font-size-base;
+}
+
+.btn-xl {
+  height: $input-height-lg;
+  padding: $space-4 $space-8;
+  font-size: $font-size-lg;
+  border-radius: $radius-md;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-icon {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: $radius-circle;
+}
+
+.btn-pill {
+  border-radius: $radius-pill;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  FORM INPUTS
+// ═══════════════════════════════════════════════════════════════
+.form-group {
+  @include flex-column;
+  gap: $space-2;
+  margin-bottom: $space-4;
+}
+
+.form-label {
+  @include label-text;
+}
+
+.form-input {
+  @include input-base;
+}
+
+.form-input-sm {
+  @include input-base;
+  height: $input-height-sm;
+  font-size: $font-size-sm;
+  padding: $space-2 $space-3;
+}
+
+.form-input-lg {
+  @include input-base;
+  height: $input-height-lg;
+  font-size: $font-size-lg;
+  padding: $space-4 $space-5;
+}
+
+.form-select {
+  @include input-base;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236B6B6B' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6l4 4 4-4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right $space-3 center;
+  background-size: 16px;
+  padding-right: $space-10;
+}
+
+.form-textarea {
+  @include input-base;
+  height: auto;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-error {
+  font-size: $font-size-xs;
+  color: $color-danger;
+  margin-top: $space-1;
+}
+
+.form-hint {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  margin-top: $space-1;
+}
+
+// ─── Search Input (Booking.com style) ─────────────────────────
+.search-input {
+  @include input-base;
+  height: $search-bar-height;
+  padding-left: $space-12;
+  font-size: $font-size-lg;
+  border-radius: $radius-md;
+  box-shadow: $shadow-search-bar;
+  border: 2px solid $tb-teal-500;
+
+  &:focus {
+    border-color: $tb-teal-500;
+    box-shadow: $shadow-search-bar, 0 0 0 3px rgba($tb-teal-500, 0.25);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CARDS
+// ═══════════════════════════════════════════════════════════════
+.card {
+  @include card;
+}
+
+.card-interactive {
+  @include card-interactive;
+}
+
+.card-flush {
+  @include card($padding: 0);
+  overflow: hidden;
+}
+
+.card-header {
+  @include flex-between;
+  padding: $space-4;
+  border-bottom: 1px solid $color-border-light;
+}
+
+.card-body {
+  padding: $space-4;
+}
+
+.card-footer {
+  @include flex-between;
+  padding: $space-4;
+  border-top: 1px solid $color-border-light;
+}
+
+.card-image {
+  width: 100%;
+  @include aspect-ratio(math.div(16, 9));
+
+  img {
+    @include cover-image;
+  }
+}
+
+// ─── Property Card (Booking.com style) ────────────────────────
+.property-card {
+  @include card-interactive($padding: 0);
+  overflow: hidden;
+
+  .property-card__image {
+    position: relative;
+    @include aspect-ratio(math.div(4, 3));
+
+    img {
+      @include cover-image;
+    }
+  }
+
+  .property-card__wishlist {
+    position: absolute;
+    top: $space-3;
+    right: $space-3;
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-circle;
+    background: rgba(255, 255, 255, 0.9);
+    color: $color-text-secondary;
+    transition: all $duration-fast $ease-default;
+
+    &:hover {
+      color: $color-danger;
+      transform: scale(1.1);
+    }
+
+    &.active {
+      color: $color-danger;
+    }
+  }
+
+  .property-card__content {
+    padding: $space-3 $space-4 $space-4;
+  }
+
+  .property-card__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-primary-light;
+    @include truncate;
+  }
+
+  .property-card__location {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    margin-top: $space-1;
+  }
+
+  .property-card__rating {
+    @include flex-start;
+    gap: $space-2;
+    margin-top: $space-2;
+  }
+
+  .property-card__price {
+    @include flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: $space-3;
+    padding-top: $space-3;
+    border-top: 1px solid $color-border-light;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BADGES & TAGS
+// ═══════════════════════════════════════════════════════════════
+.badge {
+  @include badge;
+}
+
+.badge-success {
+  @include badge($tb-green-100, $tb-green-600);
+}
+
+.badge-warning {
+  @include badge($tb-sand-100, $tb-sand-500);
+}
+
+.badge-danger {
+  @include badge($tb-red-100, $tb-red-500);
+}
+
+.badge-info {
+  @include badge($tb-teal-50, $tb-teal-700);
+}
+
+.badge-dark {
+  @include badge($tb-gray-800, $tb-white);
+}
+
+// ─── Review Score Badge ───────────────────────────────────────
+.score-badge {
+  @include score-badge;
+}
+
+.score-badge-lg {
+  @include score-badge(40px);
+  font-size: $font-size-base;
+}
+
+// ─── Star Rating ──────────────────────────────────────────────
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+
+  .star {
+    color: $color-star;
+    font-size: $font-size-sm;
+
+    &.empty {
+      color: $color-star-empty;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PRICE DISPLAY
+// ═══════════════════════════════════════════════════════════════
+.price {
+  @include price-current;
+}
+
+.price-original {
+  @include price-original;
+}
+
+.price-discount {
+  @include price-discount;
+}
+
+.price-group {
+  @include flex-end;
+  gap: $space-2;
+  align-items: baseline;
+}
+
+.price-per-night {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  font-weight: $font-weight-normal;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CONTAINERS & LAYOUT
+// ═══════════════════════════════════════════════════════════════
+.container {
+  @include container;
+}
+
+.container-sm {
+  @include container($container-md);
+}
+
+.container-lg {
+  @include container($container-2xl);
+}
+
+.section {
+  padding: $space-12 0;
+
+  @media (min-width: $bp-md) {
+    padding: $space-16 0;
+  }
+}
+
+.section-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-6;
+
+  @media (min-width: $bp-md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+// ─── Grid Layouts ─────────────────────────────────────────────
+.grid-2 { @include grid(1); @include md { @include grid(2); } }
+.grid-3 { @include grid(1); @include md { @include grid(2); } @include lg { @include grid(3); } }
+.grid-4 { @include grid(1); @include sm { @include grid(2); } @include lg { @include grid(4); } }
+.grid-auto { @include grid-auto-fill(280px); }
+
+// ═══════════════════════════════════════════════════════════════
+//  LOADING / SKELETON
+// ═══════════════════════════════════════════════════════════════
+.skeleton {
+  @include skeleton;
+}
+
+.skeleton-text {
+  @include skeleton;
+  width: 100%;
+  height: 14px;
+  margin-bottom: $space-2;
+
+  &:last-child {
+    width: 60%;
+  }
+}
+
+.skeleton-heading {
+  @include skeleton;
+  width: 70%;
+  height: 24px;
+  margin-bottom: $space-3;
+}
+
+.skeleton-image {
+  @include skeleton;
+  width: 100%;
+  @include aspect-ratio(math.div(16, 9));
+}
+
+.skeleton-avatar {
+  @include skeleton;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-circle;
+}
+
+// ─── Spinner ──────────────────────────────────────────────────
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid $color-border;
+  border-top-color: $color-primary-light;
+  border-radius: $radius-circle;
+  animation: spin 0.7s linear infinite;
+}
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+.spinner-lg {
+  width: 40px;
+  height: 40px;
+  border-width: 4px;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  DIVIDERS
+// ═══════════════════════════════════════════════════════════════
+.divider {
+  @include divider;
+}
+
+.divider-light {
+  @include divider($color-border-light);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AVATARS
+// ═══════════════════════════════════════════════════════════════
+.avatar {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-circle;
+  overflow: hidden;
+  background: $tb-teal-100;
+  color: $tb-teal-700;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  flex-shrink: 0;
+
+  img {
+    @include cover-image;
+  }
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: $font-size-xs;
+}
+
+.avatar-lg {
+  width: 56px;
+  height: 56px;
+  font-size: $font-size-lg;
+}
+
+.avatar-xl {
+  width: 80px;
+  height: 80px;
+  font-size: $font-size-2xl;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  OVERLAY / BACKDROP
+// ═══════════════════════════════════════════════════════════════
+.overlay {
+  @include overlay;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TOOLTIP (basic CSS-only)
+// ═══════════════════════════════════════════════════════════════
+[data-tooltip] {
+  position: relative;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    padding: $space-2 $space-3;
+    background: $tb-gray-800;
+    color: $tb-white;
+    font-size: $font-size-xs;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity $duration-fast $ease-default,
+                transform $duration-fast $ease-default;
+    z-index: $z-tooltip;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
