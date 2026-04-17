@@ -19,6 +19,7 @@ CREATE TABLE hotels (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
     city            VARCHAR(100) NOT NULL,
+    state           VARCHAR(100),
     address         TEXT,
     description     TEXT,
     star_rating     SMALLINT NOT NULL CHECK (star_rating BETWEEN 1 AND 5),
@@ -37,6 +38,7 @@ CREATE TABLE hotels (
 
 -- Indexes for hotel-level filters
 CREATE INDEX idx_hotels_city ON hotels (LOWER(city));
+CREATE INDEX idx_hotels_state ON hotels (LOWER(state));
 CREATE INDEX idx_hotels_star_rating ON hotels (star_rating);
 CREATE INDEX idx_hotels_property_type ON hotels (property_type);
 CREATE INDEX idx_hotels_free_cancellation ON hotels (free_cancellation) WHERE free_cancellation = TRUE;

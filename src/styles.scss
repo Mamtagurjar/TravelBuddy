@@ -38,7 +38,8 @@ body {
   font-weight: $font-weight-normal;
   color: $color-text-primary;
   background-color: $color-bg-secondary;
-  line-height: $line-height-normal;
+  line-height: 1;
+
   @include custom-scrollbar;
 }
 
@@ -47,4 +48,9 @@ app-root {
   display: block;
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+
+.mat-datepicker-content .mat-calendar {
+  background: #fff;
 }

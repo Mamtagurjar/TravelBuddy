@@ -1,14 +1,16 @@
-<div class="property-types-section">
-  <h2 class="section-title">Browse by property type</h2>
-  
-  <div class="property-carousel">
-    @for (property of properties; track property.name) {
-      <div class="property-card">
-        <div class="property-card__image-wrapper">
-          <img [src]="property.image" [alt]="property.name" class="property-card__img" />
-        </div>
-        <h3 class="property-card__title">{{ property.name }}</h3>
-      </div>
-    }
+<h2 class="section-title">Browse by property type in Mumbai</h2>
+
+<div class="property-carousel">
+  @for (property of properties ;track property) {
+  <div class="property-card">
+    <div class="property-card__image-wrapper">
+      <img [src]="property.image" [alt]="property.name" class="property-card__img" />
+    </div>
+    <div class="property-card__info">
+      <h3 class="property-card__title">{{ property.name }}</h3>
+      <p class="property-card__dates">Apr 16–Apr 17, 2 adults</p>
+      <p class="property-card__availability">{{ property.count }} available</p>
+    </div>
   </div>
+  }
 </div>

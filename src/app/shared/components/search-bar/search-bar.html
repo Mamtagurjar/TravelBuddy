@@ -2,74 +2,182 @@
   <form class="search-bar__form" (ngSubmit)="onSearch()" id="search-form">
 
     <!-- Destination -->
-    <div class="search-bar__field search-bar__field--destination">
-      <mat-icon class="search-bar__icon">hotel</mat-icon>
-      <input
-        type="text"
-        class="search-bar__input"
-        id="destination-input"
-        placeholder="Where are you going?"
-        [ngModel]="destination()"
-        (ngModelChange)="destination.set($event)"
-        name="destination"
-        autocomplete="off"
-      />
+    <div class="search-bar__field search-bar__field--destination" (click)="toggleDest($event)">
+      <mat-icon class="search-bar__icon">bed</mat-icon>
+      <input type="text" class="search-bar__input" id="destination-input" placeholder="Where are you going?"
+        [ngModel]="destination()" (ngModelChange)="destination.set($event)" name="destination" autocomplete="off" />
+      @if (destination()) {
+      <button type="button" class="search-bar__clear-btn" (click)="clearDest($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+
+      @if (showDestDropdown()) {
+      <div class="dropdown-menu destination-dropdown" (click)="$event.stopPropagation()">
+
+        @if (!destination()) {
+        <div class="dropdown-section">
+          <h4 class="dropdown-header">Your recent searches</h4>
+          @for (item of recentSearches; track item.city) {
+          <div class="dropdown-item dropdown-item--recent" (click)="selectDest(item.city)">
+            <mat-icon>history</mat-icon>
+            <div class="item-details">
+              <span class="city">{{ item.city }}</span>
+              <span class="sub">{{ item.dates }} , {{ item.guests }}</span>
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="dropdown-section">
+          <h4 class="dropdown-header">States of India</h4>
+          @for (state of indianStates.slice(0, 5); track state) {
+          <div class="dropdown-item" (click)="selectDest(state)">
+            <mat-icon>map</mat-icon>
+            <div class="item-details">
+              <span class="city">{{ state }}</span>
+              <span class="sub">India</span>
+            </div>
+          </div>
+          }
+        </div>
+        } @else {
+        <div class="dropdown-section">
+          <h4 class="dropdown-header">Locations</h4>
+          @for (state of filteredLocations(); track state) {
+          <div class="dropdown-item" (click)="selectDest(state)">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ state }}</span>
+          </div>
+          }
+        </div>
+        <div class="dropdown-section">
+          <h4 class="dropdown-header">States</h4>
+          @for (state of filteredStates(); track state) {
+          <div class="dropdown-item" (click)="selectDest(state)">
+            <mat-icon>map</mat-icon>
+            <span>{{ state }}</span>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
     </div>
 
     <!-- Check-in / Check-out Dates -->
-    <div class="search-bar__field search-bar__field--dates">
+    <div class="search-bar__field search-bar__field--dates" (click)="toggleDates($event)">
       <mat-icon class="search-bar__icon">calendar_month</mat-icon>
-      <input
-        type="text"
-        class="search-bar__input"
-        id="checkin-input"
-        placeholder="Check-in date"
-        [ngModel]="checkIn()"
-        (ngModelChange)="checkIn.set($event)"
-        name="checkIn"
-        onfocus="(this.type='date')"
-        onblur="(this.type='text')"
-      />
-      <span class="search-bar__separator">—</span>
-      <input
-        type="text"
-        class="search-bar__input"
-        id="checkout-input"
-        placeholder="Check-out date"
-        [ngModel]="checkOut()"
-        (ngModelChange)="checkOut.set($event)"
-        name="checkOut"
-        onfocus="(this.type='date')"
-        onblur="(this.type='text')"
-      />
+      <div class="search-bar__display-text" [class.search-bar__display-text--placeholder]="!checkIn()">
+        {{ getFormattedRange() }}
+      </div>
+
+      @if (showDateDropdown()) {
+      <div class="dropdown-menu date-dropdown" (click)="$event.stopPropagation()">
+        
+        <!-- Tabs -->
+        <div class="date-tabs">
+          <button type="button" class="date-tab" [class.active]="activeDateTab() === 'calendar'"
+            (click)="activeDateTab.set('calendar')">Calendar</button>
+          <button type="button" class="date-tab" [class.active]="activeDateTab() === 'flexible'"
+            (click)="activeDateTab.set('flexible')">I'm flexible</button>
+        </div>
+
+        <div class="date-content">
+          @if (activeDateTab() === 'calendar') {
+          <div class="calendar-grid">
+            <mat-calendar [minDate]="minDate" [startAt]="calendarStart" [selected]="selectedDateRange()" (selectedChange)="onDateChange($event)"
+              class="custom-calendar"></mat-calendar>
+            <mat-calendar [minDate]="minDate" [startAt]="calendarNext" [selected]="selectedDateRange()" (selectedChange)="onDateChange($event)"
+              class="custom-calendar"></mat-calendar>
+          </div>
+          } @else {
+          <div class="flexible-view">
+            <p>Flexible dates options coming soon...</p>
+          </div>
+          }
+        </div>
+
+        <!-- Footer -->
+        <div class="date-footer">
+          <div class="footer-options">
+            <button type="button" class="option-btn active">Exact dates</button>
+            <button type="button" class="option-btn"><mat-icon>add</mat-icon> 1 day</button>
+            <button type="button" class="option-btn"><mat-icon>add</mat-icon> 2 days</button>
+            <button type="button" class="option-btn"><mat-icon>add</mat-icon> 3 days</button>
+            <button type="button" class="option-btn"><mat-icon>add</mat-icon> 7 days</button>
+          </div>
+        </div>
+      </div>
+      }
     </div>
 
     <!-- Guests -->
-    <div class="search-bar__field search-bar__field--guests">
+    <div class="search-bar__field search-bar__field--guests" (click)="toggleGuests($event)">
       <mat-icon class="search-bar__icon">person</mat-icon>
-      <input
-        type="text"
-        class="search-bar__input"
-        id="guests-input"
-        [ngModel]="guests()"
-        (ngModelChange)="guests.set($event)"
-        name="guests"
-        readonly
-      />
+      <div class="search-bar__display-text">{{ guests() }}</div>
       <mat-icon class="search-bar__chevron">expand_more</mat-icon>
+      @if (showGuestDropdown()) {
+      <div class="dropdown-menu guest-dropdown" (click)="$event.stopPropagation()">
+
+        <div class="guest-counter">
+          <span class="title">Adults</span>
+          <div class="controls-box">
+            <button type="button" (click)="updateCount('adults', -1, $event)" [disabled]="adults() <= 1">-</button>
+            <span class="val">{{ adults() }}</span>
+            <button type="button" (click)="updateCount('adults', 1, $event)">+</button>
+          </div>
+        </div>
+
+        <div class="guest-counter">
+          <span class="title">Children</span>
+          <div class="controls-box">
+            <button type="button" (click)="updateCount('children', -1, $event)" [disabled]="children() <= 0">-</button>
+            <span class="val">{{ children() }}</span>
+            <button type="button" (click)="updateCount('children', 1, $event)">+</button>
+          </div>
+        </div>
+
+        <div class="guest-counter">
+          <span class="title">Rooms</span>
+          <div class="controls-box">
+            <button type="button" (click)="updateCount('rooms', -1, $event)" [disabled]="rooms() <= 1">-</button>
+            <span class="val">{{ rooms() }}</span>
+            <button type="button" (click)="updateCount('rooms', 1, $event)">+</button>
+          </div>
+        </div>
+
+        <div class="pets-toggle-row">
+          <div class="label">
+            <span class="title">Traveling with pets?</span>
+            <span class="subtitle">Assistance animals aren't considered pets.</span>
+            <a href="#" class="pets-link" (click)="$event.preventDefault()">Read more about traveling with assistance
+              animals</a>
+          </div>
+          <mat-slide-toggle [checked]="travelingWithPets()"
+            (change)="travelingWithPets.set($event.checked)"></mat-slide-toggle>
+        </div>
+
+        <button type="button" class="done-btn" (click)="closeGuestDropdown()">Done</button>
+      </div>
+      }
     </div>
 
     <!-- Search Button -->
     <button type="submit" class="search-bar__btn" id="search-btn">
-      <mat-icon class="search-bar__btn-icon">search</mat-icon>
       Search
     </button>
 
   </form>
 
-  <!-- Add flights checkbox -->
-  <label class="search-bar__checkbox" id="flights-checkbox">
-    <input type="checkbox" />
-    <span>Add flights to my search</span>
-  </label>
+  <div class="search-bar__options">
+    <label class="search-bar__checkbox">
+      <input type="checkbox" name="entireHome">
+      I'm looking for an entire home or apartment
+    </label>
+    <label class="search-bar__checkbox">
+      <input type="checkbox" [(ngModel)]="addFlights" name="addFlights">
+      Add flights to my search
+    </label>
+  </div>
 </div>

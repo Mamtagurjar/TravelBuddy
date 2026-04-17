@@ -1,0 +1,220 @@
+<div class="search-page-container">
+
+  <div class="search-bar-wrapper">
+    <app-search-bar [initialDestination]="searchParams.city || ''" [initialCheckIn]="searchParams.check_in || null"
+      [initialCheckOut]="searchParams.check_out || null" [initialAdults]="searchParams.adults || 2"
+      [initialChildren]="searchParams.children || 0" [initialRooms]="searchParams.rooms || 1"></app-search-bar>
+  </div>
+
+  <!-- Left Side: Filters (30%) -->
+  <aside class="filter-sidebar">
+    <div class="sidebar-header">
+      <h3>Filters</h3>
+      <button class="clear-btn" (click)="clearFilters()">Reset</button>
+    </div>
+
+    <!-- Price Range -->
+    @if (filters?.price_range) {
+    <div class="filter-group">
+      <h4>Price Range</h4>
+
+      <div class="slider-container">
+        <mat-slider [min]="+filters!.price_range.min" [max]="+filters!.price_range.max" discrete step="100">
+          <input matSliderStartThumb [ngModel]="searchParams.min_price || +filters!.price_range.min"
+            (change)="setFilter('min_price', $any($event.target).value)">
+          <input matSliderEndThumb [ngModel]="searchParams.max_price || +filters!.price_range.max"
+            (change)="setFilter('max_price', $any($event.target).value)">
+        </mat-slider>
+      </div>
+
+      <div class="price-inputs">
+        <div class="price-input-wrapper">
+          <label>Min Price</label>
+          <input type="number" [ngModel]="searchParams.min_price" [placeholder]="filters!.price_range.min.toString()"
+            (change)="setFilter('min_price', $any($event.target).value)">
+        </div>
+        <div class="price-input-wrapper">
+          <label>Max Price</label>
+          <input type="number" [ngModel]="searchParams.max_price" [placeholder]="filters!.price_range.max.toString()"
+            (change)="setFilter('max_price', $any($event.target).value)">
+        </div>
+      </div>
+    </div>
+    }
+
+    @if (filters) {
+    <div class="filter-group">
+      <h4>Star Rating</h4>
+      @for (star of starRatings; track star.value) {
+      <div class="filter-item">
+        <label>
+          <input type="checkbox" [checked]="isFilterSelected('star_rating', star.value)"
+            (change)="toggleFilter('star_rating', star.value)">
+          {{ star.value }} Stars
+          <span class="count">({{ star.count }})</span>
+        </label>
+      </div>
+      }
+    </div>
+    }
+
+    @if (filters?.amenities) {
+    <div class="filter-group">
+      <h4>Amenities</h4>
+      @for (amenity of filters?.amenities; track amenity.value) {
+      <div class="filter-item">
+        <label>
+          <input type="checkbox" [checked]="isFilterSelected('amenities', amenity.value)"
+            (change)="toggleFilter('amenities', amenity.value)">
+          {{ amenity.label }}
+          <span class="count">({{ amenity.count }})</span>
+        </label>
+      </div>
+      }
+    </div>
+    }
+
+    @if (filters?.property_types) {
+    <div class="filter-group">
+      <h4>Property Type</h4>
+      @for (type of filters?.property_types; track type.value) {
+      <div class="filter-item">
+        <label>
+          <input type="checkbox" [checked]="isFilterSelected('property_type', type.value)"
+            (change)="toggleFilter('property_type', type.value)">
+          {{ type.value.toString() | titlecase }}
+          <span class="count">({{ type.count }})</span>
+        </label>
+      </div>
+      }
+    </div>
+    }
+
+    @if (filters?.meal_plans) {
+    <div class="filter-group">
+      <h4>Meal Plan</h4>
+      @for (meal of filters?.meal_plans; track meal.value) {
+      <div class="filter-item">
+        <label>
+          <input type="checkbox" [checked]="isFilterSelected('meal_plan', meal.value)"
+            (change)="toggleFilter('meal_plan', meal.value)">
+          {{ meal.label }}
+          <span class="count">({{ meal.count }})</span>
+        </label>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Bed Types -->
+    @if (filters?.bed_types) {
+    <div class="filter-group">
+      <h4>Bed Type</h4>
+      @for (bed of filters?.bed_types; track bed.value) {
+      <div class="filter-item">
+        <label>
+          <input type="checkbox" [checked]="isFilterSelected('bed_type', bed.value)"
+            (change)="toggleFilter('bed_type', bed.value)">
+          {{ bed.value.toString() | titlecase }}
+          <span class="count">({{ bed.count }})</span>
+        </label>
+      </div>
+      }
+    </div>
+    }
+  </aside>
+
+  <!-- Right Side: Results (70%) -->
+  <main class="results-grid">
+    <div class="results-header">
+      @if (!isLoading) {
+      <h2>Found {{ hotels.length }} hotels</h2>
+      } @else {
+      <h2>Searching...</h2>
+      }
+
+      <div class="sort-dropdown">
+        <span>Sort by: </span>
+        <select (change)="toggleFilter('sort_by', $any($event.target).value)">
+          <option value="popularity">Popularity</option>
+          <option value="price_low">Price (Low to High)</option>
+          <option value="price_high">Price (High to Low)</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Refreshing results...</p>
+    </div>
+    }
+
+    <!-- Hotel List -->
+    @if (!isLoading) {
+    <div class="results-scroll-area">
+      <div class="hotel-cards-container">
+        @for (hotel of hotels; track hotel.id) {
+        <div class="hotel-card">
+          <div class="hotel-image">
+            <img [src]="hotel.main_image" [alt]="hotel.name" loading="lazy"
+              onerror="this.src='/assets/images/placeholder-hotel.jpg'">
+          </div>
+          <div class="hotel-info">
+            <div class="info-top">
+              <h3>{{ hotel.name }}</h3>
+              <span class="rating">{{ hotel.star_rating }} ★</span>
+            </div>
+            <p class="location">{{ hotel.city }} | {{ hotel.address }}</p>
+
+            <div class="amenity-tags">
+              @for (a of hotel.amenities.slice(0, 4); track a) {
+              <span>{{ a.toString() | titlecase }}</span>
+              }
+              @if (hotel.amenities.length > 4) {
+              <span>+{{ hotel.amenities.length - 4 }}</span>
+              }
+            </div>
+
+            <div class="price-section">
+              <div class="price-box">
+                <span class="price">₹{{ hotel.price_per_night }}</span>
+                <p class="tax-info">+ ₹{{ (hotel.price_per_night * 0.12).toFixed(0) }} taxes & fees</p>
+              </div>
+              <button class="view-btn">View Deal</button>
+            </div>
+          </div>
+        </div>
+        } @empty {
+        <!-- No Results State -->
+        <div class="no-results">
+          <h3>No Data Found</h3>
+          <p>Try removing some filters to see more results.</p>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Pagination UI -->
+    @if (totalPages > 1) {
+    <div class="pagination-container">
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        ← Previous
+      </button>
+
+      <div class="page-info">
+        Page <strong>{{ currentPage }}</strong> of <strong>{{ totalPages }}</strong>
+        <small>({{ totalResults }} properties)</small>
+      </div>
+
+      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        Next →
+      </button>
+    </div>
+    }
+    }
+  </main>
+
+</div>

@@ -33,6 +33,13 @@ export const routes: Routes = [
         path: 'taxis',
         loadComponent: () => import('./shared/components/feature-placeholder/feature-placeholder').then(m => m.FeaturePlaceholderComponent)
       },
+      {
+        path: 'search',
+        loadComponent: () =>
+          import('./features/hotel-search/hotel-search.component').then(
+            (m) => m.HotelSearchComponent
+          ),
+      },
     ],
   },
 

@@ -58,7 +58,7 @@
 }
 
 .footer__locale {
-  margin-bottom: $space-8;
+  margin-bottom: 1rem;
   
   .footer__btn {
     display: inline-flex;
@@ -143,7 +143,7 @@
       color: transparent;
       font-size: 20px; 
       letter-spacing: 2px; 
-      line-height: 0;
+      line-height:0;
     } 
   }
   .brand--opentable { 

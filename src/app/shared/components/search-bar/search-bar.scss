@@ -1,10 +1,73 @@
-
 @use 'variables' as *;
 @use 'mixins' as *;
 
+.search-bar__clear-btn {
+  background: transparent;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  padding: $space-1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color $duration-fast;
+
+  &:hover {
+    color: $color-text-primary;
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.search-bar__options {
+  display: flex;
+  gap: $space-6;
+  margin-top: $space-3;
+  padding-left: $space-1;
+
+  @include max-md {
+    flex-direction: column;
+    gap: $space-2;
+  }
+}
+
+.search-bar__date-range {
+  flex: 1;
+  font-size: $font-size-sm;
+
+  input {
+    color: $color-text-primary;
+    font-family: $font-family-base;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  @include md {
+    font-size: $font-size-base;
+  }
+}
+
+.search-bar__date-trigger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
 .search-bar {
   position: relative;
-  z-index: $z-raised;
+  z-index: $z-header - 1;
   max-width: $container-xl;
   margin: 0 auto;
   padding: 0 $space-4;
@@ -14,137 +77,21 @@
   }
 }
 
-.search-bar__form {
-  display: flex;
-  align-items: stretch;
-  background: $tb-white;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-lg;
-  overflow: hidden;
-  border: 3px solid $tb-teal-500;
 
-  // Tablet: 2x2 grid
-  @include max-lg {
-    flex-wrap: wrap;
-  }
-
-  // Mobile/Tablet: vertical stack
-  @include max-md {
-    flex-direction: column;
-    border-radius: $radius-md;
-  }
-}
-
-// ─── Individual Fields ──────────────────────────────
-.search-bar__field {
-  display: flex;
-  align-items: center;
-  gap: $space-2;
-  padding: $space-3 $space-4;
-  border-right: 1px solid $color-border-light;
+.search-bar__display-text {
   flex: 1;
-  min-width: 0;
-
-  &:last-of-type {
-    border-right: none;
-  }
-
-  @include max-lg {
-    flex: 1 1 45%;
-    border-bottom: 1px solid $color-border-light;
-  }
-
-  @include max-md {
-    flex: 1 1 100%;
-    border-right: none;
-    border-bottom: 1px solid $color-border-light;
-    padding: $space-4;
-  }
-}
-
-.search-bar__field--destination {
-  flex: 1.3;
-}
-
-.search-bar__field--dates {
-  flex: 1.4;
-}
-
-.search-bar__field--guests {
-  flex: 1.3;
-
-  @include max-lg {
-    border-right: none;
-  }
-}
-
-.search-bar__icon {
-  font-size: $font-size-xl;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.search-bar__input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: $font-size-sm;
-  font-family: $font-family-base;
-  color: $color-text-primary;
-  background: transparent;
-  min-width: 0;
-  padding: 0;
-
-  &::placeholder {
-    color: $color-text-muted;
-  }
-
-  @include md {
-    font-size: $font-size-base;
-  }
-}
-
-.search-bar__separator {
-  color: $color-text-muted;
-  font-size: $font-size-sm;
-  padding: 0 $space-1;
-  flex-shrink: 0;
-}
-
-.search-bar__chevron {
-  color: $color-text-muted;
-  font-size: $font-size-sm;
-  flex-shrink: 0;
-}
-
-// ─── Search Button ──────────────────────────────────
-.search-bar__btn {
-  @include flex-center;
-  background: $color-accent;
-  color: $tb-white;
-  border: none;
-  padding: $space-4 $space-8;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
-  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: #1a1a1a;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   white-space: nowrap;
-  transition: background $duration-fast $ease-default;
-  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: $space-1 0;
 
-  &:hover {
-    background: $tb-coral-600;
-  }
-
-  &:active {
-    background: $tb-coral-600;
-    transform: scale(0.98);
-  }
-
-  @include max-md {
-    width: 100%;
-    padding: $space-4;
-    border-radius: 0 0 calc($radius-md - 3px) calc($radius-md - 3px);
+  &--placeholder {
+    color: $color-text-muted;
+    font-weight: $font-weight-normal;
   }
 }
 
@@ -153,15 +100,474 @@
   display: flex;
   align-items: center;
   gap: $space-2;
-  margin-top: $space-3;
   font-size: $font-size-sm;
-  color: $color-text-secondary;
+  color: #1a1a1a;
   cursor: pointer;
 
   input[type='checkbox'] {
     width: 18px;
     height: 18px;
-    accent-color: $color-primary-light;
+    accent-color: #006ce4;
     cursor: pointer;
   }
 }
+
+.search-bar__form {
+  display: flex;
+  align-items: stretch;
+  background: white;
+  border-radius: $radius-sm;
+  box-shadow: $shadow-md;
+  border: 4px solid #ffb700; // Original golden border from image
+
+  @include max-lg {
+    flex-wrap: wrap;
+  }
+
+  @include max-md {
+    flex-direction: column;
+    border-radius: $radius-md;
+  }
+}
+
+.search-bar__field {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-right: 4px solid #ffb700; // Golden separator
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background: white;
+
+  &:last-of-type {
+    border-right: none;
+  }
+
+  @include max-lg {
+    flex: 1 1 45%;
+    border-bottom: 2px solid #ffb700;
+  }
+
+  @include max-md {
+    flex: 1 1 100%;
+    border-right: none;
+    border-bottom: 4px solid #ffb700;
+    padding: $space-4;
+  }
+}
+
+.search-bar__field--destination {
+  flex: 1.5;
+}
+
+.search-bar__field--dates {
+  flex: 1.5;
+}
+
+.search-bar__field--guests {
+  flex: 1.5;
+}
+
+.search-bar__icon {
+  font-size: $font-size-xl;
+  flex-shrink: 0;
+  line-height: 1;
+  color: #4a4a4a;
+}
+
+.search-bar__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  color: #1a1a1a;
+  background: transparent;
+  min-width: 0;
+  padding: 0;
+  font-weight: $font-weight-medium;
+
+  &::placeholder {
+    color: #4a4a4a;
+    font-weight: $font-weight-normal;
+  }
+}
+
+.search-bar__chevron {
+  color: #4a4a4a;
+  font-size: $font-size-sm;
+  flex-shrink: 0;
+}
+
+.search-bar__btn {
+  background: #006ce4; // Booking blue
+  color: white;
+  border: none;
+  padding: 0 $space-8;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background $duration-fast;
+  height: auto;
+  min-height: 60px;
+
+  &:hover {
+    background: #005bb8;
+  }
+
+  @include max-md {
+    width: 100%;
+    border-radius: 0 0 $radius-md $radius-md;
+    padding: $space-4;
+  }
+}
+
+// ─── Dropdowns ──────────────────────────────────────
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + $space-2);
+  left: 0;
+  background: $tb-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-xl;
+  padding: $space-4;
+  z-index: $z-popover + 100;
+  // animation: slideDown $duration-fast $ease-out;
+  border: 1px solid $color-border-light;
+
+  @include max-md {
+    width: 90vw;
+    left: 5vw;
+    position: fixed;
+    top: 20%;
+  }
+}
+
+.destination-dropdown {
+  min-width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.dropdown-section {
+  padding: $space-4 0;
+  border-bottom: 1px solid $color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-header {
+    margin: 0 0 $space-3 $space-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  cursor: pointer;
+  transition: background $duration-fast $ease-default;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #4a4a4a;
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: column;
+
+    .city {
+      font-weight: $font-weight-bold;
+      color: #1a1a1a;
+      font-size: $font-size-base;
+    }
+
+    .sub {
+      font-size: $font-size-xs;
+      color: #4a4a4a;
+    }
+  }
+
+  &:hover {
+    background: #f2f2f2;
+  }
+}
+
+.guest-dropdown {
+  min-width: 400px;
+  right: 0;
+  left: auto;
+}
+
+.guest-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-3 0;
+
+  .title {
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+  }
+
+  .controls-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #868686;
+    border-radius: $radius-sm;
+    overflow: hidden;
+
+    button {
+      @include flex-center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      color: #006ce4;
+      font-size: $font-size-lg;
+      cursor: pointer;
+
+      &:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+      }
+
+      &:hover {
+        background: #f0f6ff;
+      }
+    }
+
+    .val {
+      padding: 0 $space-2;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-base;
+      min-width: 30px;
+      text-align: center;
+    }
+  }
+}
+
+.pets-toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: $space-4;
+  border-top: 1px solid $color-border-light;
+  margin-top: $space-2;
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .title {
+      font-weight: $font-weight-bold;
+      font-size: $font-size-sm;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: #4a4a4a;
+    }
+
+    .pets-link {
+      font-size: 11px;
+      color: #006ce4;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.done-btn {
+  width: 100%;
+  padding: $space-3;
+  margin-top: $space-6;
+  background: white;
+  border: 1px solid #006ce4;
+  color: #006ce4;
+  border-radius: $radius-sm;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  transition: all $duration-fast;
+
+  &:hover {
+    background: #f0f6ff;
+  }
+}
+
+// ─── Date Dropdown ──────────────────────────────────
+.date-dropdown {
+  min-width: 400px;
+  padding: $space-2;
+  left: 0;
+  // transform: translateX(-50%);
+
+  @include max-lg {
+    min-width: 400px;
+    transform: none;
+    left: 0;
+  }
+}
+
+.date-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid $color-border-light;
+  margin-bottom: $space-4;
+
+  .date-tab {
+    background: transparent;
+    border: none;
+    padding: $space-3 $space-8;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: #4a4a4a;
+    cursor: pointer;
+    position: relative;
+    transition: color $duration-fast;
+
+    &.active {
+      color: #006ce4;
+      font-weight: $font-weight-bold;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #006ce4;
+      }
+    }
+
+    &:hover:not(.active) {
+      background: #f1f1f1;
+    }
+  }
+}
+
+.calendar-grid {
+  display: flex;
+  gap: $space-4;
+  justify-content: center;
+
+  @include max-lg {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.custom-calendar {
+  width: 350px !important;
+  
+  ::ng-deep {
+    .mat-calendar-header {
+      background: transparent;
+    }
+    
+    /* Remove automatic styling from "today" */
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+      border: none !important;
+      background: transparent !important;
+    }
+
+    /* Keep the solid blue circle on actual chosen dates */
+    .mat-calendar-body-selected {
+      background-color: #006ce4 !important;
+      color: white !important;
+      border-radius: 50%;
+    }
+    
+    /* Remove the light-blue connecting highlight between the two dates */
+    .mat-calendar-body-in-range::before {
+      background: transparent !important;
+    }
+    
+    .mat-calendar-table-header th {
+      color: #4a4a4a;
+      font-weight: $font-weight-medium;
+    }
+
+    /* Display disabled dates (before current date) in a lighter, greyed-out color */
+    .mat-calendar-body-disabled .mat-calendar-body-cell-content {
+      color: #ced4da !important;
+      opacity: 0.5 !important;
+    }
+  }
+}
+
+.date-footer {
+  margin-top: $space-4;
+  padding-top: $space-4;
+  border-top: 1px solid $color-border-light;
+  display: flex;
+  justify-content: center;
+
+  .footer-options {
+    display: flex;
+    gap: $space-3;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+    background: white;
+    border: 1px solid #868686;
+    padding: $space-2 $space-4;
+    border-radius: 20px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $duration-fast;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &.active {
+      background: #f0f6ff;
+      border-color: #006ce4;
+      color: #006ce4;
+    }
+
+    &:hover {
+      background: #f1f1f1;
+    }
+  }
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+

@@ -5,20 +5,31 @@ const db = require('../config/db');
  */
 function parseCSV(value) {
   if (!value) return [];
+  if (Array.isArray(value)) return value; // If Express already parsed it as ['ac', 'safe']
   return value
     .split(',')
     .map((v) => v.trim())
     .filter(Boolean);
 }
 
+const searchResultsCache = new Map();
+const SEARCH_TTL = 2 * 60 * 1000; // 2 minutes
+
 /**
  * Build and execute the dynamic hotel search query.
- * All filters are applied conditionally using parameterized SQL.
- *
- * @param {Object} filters - Parsed query parameters
- * @returns {Promise<{hotels: Array, total: number, filters: Object}>}
  */
 async function searchHotels(filters) {
+  // Create a unique key for this search based on all query params
+  const searchKey = JSON.stringify(filters);
+  const cached = searchResultsCache.get(searchKey);
+
+  if (cached && (Date.now() - cached.timestamp) < SEARCH_TTL) {
+    console.log('⚡ Search Cache Hit');
+    return cached.data;
+  }
+
+  console.time('🔍 Database Search Execution');
+
   const {
     city,
     check_in,
@@ -55,7 +66,7 @@ async function searchHotels(filters) {
   // -- Hotel-level filters --
 
   if (city) {
-    conditions.push(`LOWER(h.city) = LOWER($${paramIndex})`);
+    conditions.push(`(LOWER(h.city) = LOWER($${paramIndex}) OR LOWER(h.state) = LOWER($${paramIndex}))`);
     params.push(city);
     paramIndex++;
   }
@@ -154,19 +165,37 @@ async function searchHotels(filters) {
   // ─── Build WHERE string ─────────────────────────────────────
   const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
+  console.log('📝 Query WHERE:', whereClause);
+  console.log('📦 Query Params:', params);
+
   // ─── Sort mapping ───────────────────────────────────────────
   const sortMap = {
     price_asc: 'min_price ASC',
+    price_low: 'min_price ASC',
     price_desc: 'min_price DESC',
+    price_high: 'min_price DESC',
     rating_desc: 'h.star_rating DESC',
+    rating: 'h.star_rating DESC',
     rating_asc: 'h.star_rating ASC',
+    popularity: 'h.star_rating DESC',
     name_asc: 'h.name ASC',
     name_desc: 'h.name DESC',
   };
   const orderBy = sortMap[sort_by] || 'h.star_rating DESC';
 
-  // ─── Main query: Get hotels with their best room price ──────
+  // ─── Main query: Optimized for performance using a Subquery/CTE ──────
   const mainQuery = `
+    WITH filtered_hotels AS (
+      SELECT DISTINCT h.id, h.star_rating, MIN(r.price_per_night) as min_price
+      FROM hotels h
+      INNER JOIN rooms r ON r.hotel_id = h.id
+      LEFT JOIN room_amenities ra ON ra.room_id = r.id
+      LEFT JOIN room_meal_plans rmp ON rmp.room_id = r.id
+      ${whereClause}
+      GROUP BY h.id, h.star_rating
+      ORDER BY ${orderBy}
+      LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
+    )
     SELECT 
       h.id,
       h.name,
@@ -176,39 +205,26 @@ async function searchHotels(filters) {
       h.star_rating,
       h.property_type,
       h.free_cancellation,
-      h.no_credit_card,
-      h.image_url,
+      h.no_credit_card AS no_credit_card_needed,
+      h.image_url AS main_image,
       h.latitude,
       h.longitude,
-      MIN(r.price_per_night)    AS min_price,
-      MAX(r.price_per_night)    AS max_price,
-      COUNT(DISTINCT r.id)      AS available_rooms,
-      -- Aggregate amenities as JSON array
+      fh.min_price    AS price_per_night,
+      -- Aggregate amenities as JSON array (only for the selected 20 hotels)
       COALESCE(
-        JSON_AGG(DISTINCT JSONB_BUILD_OBJECT('name', am.name, 'label', am.label))
+        JSON_AGG(DISTINCT am.label)
         FILTER (WHERE am.id IS NOT NULL),
         '[]'
-      ) AS amenities,
-      -- Aggregate meal plans as JSON array
-      COALESCE(
-        JSON_AGG(DISTINCT JSONB_BUILD_OBJECT('name', mp.name, 'label', mp.label))
-        FILTER (WHERE mp.id IS NOT NULL),
-        '[]'
-      ) AS meal_plans,
-      -- Aggregate bed types
-      ARRAY_AGG(DISTINCT r.bed_type) AS bed_types,
-      -- Aggregate room types
-      ARRAY_AGG(DISTINCT r.room_type) AS room_types
+      ) AS amenities
     FROM hotels h
+    INNER JOIN filtered_hotels fh ON h.id = fh.id
     INNER JOIN rooms r ON r.hotel_id = h.id
     LEFT JOIN room_amenities ra ON ra.room_id = r.id
     LEFT JOIN amenities am ON am.id = ra.amenity_id
-    LEFT JOIN room_meal_plans rmp ON rmp.room_id = r.id
-    LEFT JOIN meal_plans mp ON mp.id = rmp.meal_plan_id
-    ${whereClause}
-    GROUP BY h.id
+    GROUP BY h.id, h.name, h.city, h.address, h.description, h.star_rating, 
+             h.property_type, h.free_cancellation, h.no_credit_card, h.image_url, 
+             h.latitude, h.longitude, fh.min_price
     ORDER BY ${orderBy}
-    LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
   `;
 
   params.push(limit, offset);
@@ -228,6 +244,9 @@ async function searchHotels(filters) {
   // Remove LIMIT/OFFSET params for count query
   const countParams = params.slice(0, -2);
 
+  console.log('📜 Main Query:', mainQuery);
+  console.log('📜 Count Query:', countQuery);
+  
   // ─── Execute both queries in parallel ──────────────────────
   const [hotelsResult, countResult] = await Promise.all([
     db.query(mainQuery, params),
@@ -236,14 +255,31 @@ async function searchHotels(filters) {
 
   const total = parseInt(countResult.rows[0].total);
 
-  return {
+  const result = {
     hotels: hotelsResult.rows,
     total,
     page,
     limit,
     totalPages: Math.ceil(total / limit),
   };
+
+  searchResultsCache.set(searchKey, {
+    data: result,
+    timestamp: Date.now()
+  });
+
+  console.timeEnd('🔍 Database Search Execution');
+  console.log(`✅ Search for "${city || 'Global'}" returned ${hotelsResult.rows.length} hotels (Total: ${total})`);
+
+  return result;
 }
+
+/**
+ * Simple in-memory cache to prevent hammered DB queries for filters.
+ * In production, this would be Redis.
+ */
+const filterCache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
  * Get dynamic filter options based on the current data in the database.
@@ -253,6 +289,13 @@ async function searchHotels(filters) {
  * @returns {Promise<Object>} Available filter facets with counts
  */
 async function getFilterOptions(city) {
+  const cacheKey = `filters_${(city || 'global').toLowerCase()}`;
+  const cached = filterCache.get(cacheKey);
+
+  if (cached && (Date.now() - cached.timestamp) < CACHE_TTL) {
+    return cached.data;
+  }
+
   const conditions = [];
   const params = [];
   let paramIndex = 1;
@@ -341,7 +384,7 @@ async function getFilterOptions(city) {
     `, params),
   ]);
 
-  return {
+  const result = {
     star_ratings: starRatings.rows.map((r) => ({
       value: r.value,
       count: parseInt(r.count),
@@ -366,6 +409,13 @@ async function getFilterOptions(city) {
     })),
     price_range: priceRange.rows[0] || { min: 0, max: 0 },
   };
+
+  filterCache.set(cacheKey, {
+    data: result,
+    timestamp: Date.now()
+  });
+
+  return result;
 }
 
 module.exports = { searchHotels, getFilterOptions };

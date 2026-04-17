@@ -36,89 +36,89 @@ INSERT INTO meal_plans (name, label) VALUES
 -- MUMBAI HOTELS (10)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('The Taj Mahal Palace',       'Mumbai', 'Apollo Bunder, Colaba', 'Iconic luxury hotel overlooking the Gateway of India with world-class dining.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('The Oberoi Mumbai',          'Mumbai', 'Nariman Point', 'Sophisticated luxury hotel with stunning sea views and exceptional service.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('ITC Maratha',                'Mumbai', 'Andheri East', 'Grand Luxury Collection hotel near the airport with Maratha-inspired architecture.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('Trident Nariman Point',      'Mumbai', 'Nariman Point', 'Contemporary luxury with panoramic views of the Arabian Sea.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('JW Marriott Mumbai Juhu',    'Mumbai', 'Juhu Tara Road', 'Beachfront luxury resort with extensive wellness facilities.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('The Leela Mumbai',           'Mumbai', 'Andheri East', 'Award-winning luxury hotel inspired by the Lotus flower.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
-  ('Novotel Mumbai Juhu Beach',  'Mumbai', 'Balraj Sahani Marg, Juhu', 'Modern 4-star hotel steps from Juhu Beach.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
-  ('Hyatt Regency Mumbai',       'Mumbai', 'Sahar Airport Road', 'Sleek business hotel near the international airport.', 4, 'hotel', FALSE, FALSE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
-  ('Hotel Marine Plaza',         'Mumbai', 'Marine Drive', 'Art-deco boutique hotel on the famous Queens Necklace.', 4, 'boutique', TRUE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
-  ('FabHotel Prime Andheri',     'Mumbai', 'Andheri West', 'Affordable comfort in the heart of the suburbs.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('The Taj Mahal Palace',       'Mumbai', 'Maharashtra', 'Apollo Bunder, Colaba', 'Iconic luxury hotel overlooking the Gateway of India with world-class dining.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('The Oberoi Mumbai',          'Mumbai', 'Maharashtra', 'Nariman Point', 'Sophisticated luxury hotel with stunning sea views and exceptional service.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('ITC Maratha',                'Mumbai', 'Maharashtra', 'Andheri East', 'Grand Luxury Collection hotel near the airport with Maratha-inspired architecture.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('Trident Nariman Point',      'Mumbai', 'Maharashtra', 'Nariman Point', 'Contemporary luxury with panoramic views of the Arabian Sea.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('JW Marriott Mumbai Juhu',    'Mumbai', 'Maharashtra', 'Juhu Tara Road', 'Beachfront luxury resort with extensive wellness facilities.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('The Leela Mumbai',           'Mumbai', 'Maharashtra', 'Andheri East', 'Award-winning luxury hotel inspired by the Lotus flower.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
+  ('Novotel Mumbai Juhu Beach',  'Mumbai', 'Maharashtra', 'Balraj Sahani Marg, Juhu', 'Modern 4-star hotel steps from Juhu Beach.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
+  ('Hyatt Regency Mumbai',       'Mumbai', 'Maharashtra', 'Sahar Airport Road', 'Sleek business hotel near the international airport.', 4, 'hotel', FALSE, FALSE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
+  ('Hotel Marine Plaza',         'Mumbai', 'Maharashtra', 'Marine Drive', 'Art-deco boutique hotel on the famous Queens Necklace.', 4, 'boutique', TRUE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
+  ('FabHotel Prime Andheri',     'Mumbai', 'Maharashtra', 'Andheri West', 'Affordable comfort in the heart of the suburbs.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
 
 -- ═══════════════════════════════════════════════════════════
 -- DELHI HOTELS (10)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('The Imperial New Delhi',     'Delhi', 'Janpath, Connaught Place', 'Heritage luxury hotel with museum-quality art collection.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('The Lodhi',                  'Delhi', 'Lodhi Road', 'All-suite luxury hotel with private plunge pools.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('Taj Palace New Delhi',       'Delhi', 'Sardar Patel Marg, Diplomatic Enclave', 'Sprawling luxury hotel set amid 6 acres of gardens.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('ITC Maurya',                 'Delhi', 'Diplomatic Enclave', 'Iconic hotel hosting world leaders since 1977.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('The Oberoi New Delhi',       'Delhi', 'Dr. Zakir Hussain Marg', 'Refined luxury amid the lush Delhi Golf Course greens.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('Radisson Blu New Delhi',     'Delhi', 'Mahipalpur, NH-8', 'Stylish airport hotel with excellent connectivity.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
-  ('The Claridges',              'Delhi', 'Aurangzeb Road', 'Colonial-era boutique hotel with manicured lawns.', 4, 'boutique', TRUE, FALSE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
-  ('ibis New Delhi Aerocity',    'Delhi', 'Aerocity, IGI Airport', 'Budget-friendly comfort near the airport.', 3, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
-  ('Haveli Dharampura',          'Delhi', 'Gali Guliyan, Old Delhi', 'Restored 150-year-old haveli in the heart of Old Delhi.', 4, 'heritage', TRUE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
-  ('Backpacker Panda Connaught', 'Delhi', 'Connaught Place', 'Trendy hostel with private rooms and dorms.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('The Imperial New Delhi',     'Delhi', 'Delhi', 'Janpath, Connaught Place', 'Heritage luxury hotel with museum-quality art collection.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('The Lodhi',                  'Delhi', 'Delhi', 'Lodhi Road', 'All-suite luxury hotel with private plunge pools.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('Taj Palace New Delhi',       'Delhi', 'Delhi', 'Sardar Patel Marg, Diplomatic Enclave', 'Sprawling luxury hotel set amid 6 acres of gardens.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('ITC Maurya',                 'Delhi', 'Delhi', 'Diplomatic Enclave', 'Iconic hotel hosting world leaders since 1977.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('The Oberoi New Delhi',       'Delhi', 'Delhi', 'Dr. Zakir Hussain Marg', 'Refined luxury amid the lush Delhi Golf Course greens.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('Radisson Blu New Delhi',     'Delhi', 'Delhi', 'Mahipalpur, NH-8', 'Stylish airport hotel with excellent connectivity.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
+  ('The Claridges',              'Delhi', 'Delhi', 'Aurangzeb Road', 'Colonial-era boutique hotel with manicured lawns.', 4, 'boutique', TRUE, FALSE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
+  ('ibis New Delhi Aerocity',    'Delhi', 'Delhi', 'Aerocity, IGI Airport', 'Budget-friendly comfort near the airport.', 3, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
+  ('Haveli Dharampura',          'Delhi', 'Delhi', 'Gali Guliyan, Old Delhi', 'Restored 150-year-old haveli in the heart of Old Delhi.', 4, 'heritage', TRUE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
+  ('Backpacker Panda Connaught', 'Delhi', 'Delhi', 'Connaught Place', 'Trendy hostel with private rooms and dorms.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
 
 -- ═══════════════════════════════════════════════════════════
 -- GOA HOTELS (10)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('Taj Exotica Resort & Spa',   'Goa', 'Calangute-Benaulim Road, Benaulim', 'Mediterranean-style luxury resort on 56 acres.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('W Goa',                      'Goa', 'Vagator Beach', 'Ultra-trendy beachfront retreat with vibrant nightlife.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('The Leela Goa',              'Goa', 'Mobor, Cavelossim', 'Lagoon-front resort with a 12-hole golf course.', 5, 'resort', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('Alila Diwa Goa',             'Goa', 'Majorda, South Goa', 'Paddy-field-view boutique resort with infinity pool.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('Novotel Goa Dona Sylvia',    'Goa', 'Cavelossim Beach', 'Portuguese-style village resort right on the beach.', 4, 'resort', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('Hyatt Centric Candolim',     'Goa', 'Candolim', 'Modern hotel with rooftop pool and beach access.', 4, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
-  ('Treehouse Blue Goa',         'Goa', 'Anjuna', 'Eco-friendly property nestled among palm trees.', 3, 'villa', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
-  ('Antares Beach Club',         'Goa', 'Vagator, North Goa', 'Cliffside boutique hotel with stunning sunset views.', 3, 'boutique', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
-  ('OYO Beach Walk Calangute',   'Goa', 'Calangute Beach Road', 'Budget-friendly stay 5 minutes from Calangute Beach.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
-  ('Palolem Beach Resort',       'Goa', 'Palolem, South Goa', 'Rustic beach huts on the famous crescent beach.', 2, 'resort', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('Taj Exotica Resort & Spa',   'Goa', 'Goa', 'Calangute-Benaulim Road, Benaulim', 'Mediterranean-style luxury resort on 56 acres.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('W Goa',                      'Goa', 'Goa', 'Vagator Beach', 'Ultra-trendy beachfront retreat with vibrant nightlife.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('The Leela Goa',              'Goa', 'Goa', 'Mobor, Cavelossim', 'Lagoon-front resort with a 12-hole golf course.', 5, 'resort', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('Alila Diwa Goa',             'Goa', 'Goa', 'Majorda, South Goa', 'Paddy-field-view boutique resort with infinity pool.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('Novotel Goa Dona Sylvia',    'Goa', 'Goa', 'Cavelossim Beach', 'Portuguese-style village resort right on the beach.', 4, 'resort', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('Hyatt Centric Candolim',     'Goa', 'Goa', 'Candolim', 'Modern hotel with rooftop pool and beach access.', 4, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
+  ('Treehouse Blue Goa',         'Goa', 'Goa', 'Anjuna', 'Eco-friendly property nestled among palm trees.', 3, 'villa', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
+  ('Antares Beach Club',         'Goa', 'Goa', 'Vagator, North Goa', 'Cliffside boutique hotel with stunning sunset views.', 3, 'boutique', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6'),
+  ('OYO Beach Walk Calangute',   'Goa', 'Goa', 'Calangute Beach Road', 'Budget-friendly stay 5 minutes from Calangute Beach.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1590490360182-c33d955bc58a'),
+  ('Palolem Beach Resort',       'Goa', 'Goa', 'Palolem, South Goa', 'Rustic beach huts on the famous crescent beach.', 2, 'resort', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
 
 -- ═══════════════════════════════════════════════════════════
 -- JAIPUR HOTELS (8)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('Rambagh Palace',             'Jaipur', 'Bhawani Singh Road', 'Former royal residence turned into Indias finest palace hotel.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('The Oberoi Rajvilas',        'Jaipur', 'Goner Road', 'Fort-like luxury resort set amid 32 acres of gardens.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('Taj Jai Mahal Palace',       'Jaipur', 'Jacob Road, Civil Lines', 'Heritage palace hotel with 18 acres of Mughal gardens.', 5, 'palace', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('ITC Rajputana',              'Jaipur', 'Palace Road', 'Rajputana-inspired luxury in the heart of the Pink City.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('Samode Haveli',              'Jaipur', 'Gangapole', '175-year-old haveli with hand-painted frescoes.', 4, 'heritage', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('Clarks Amer',                'Jaipur', 'JLN Marg', 'Well-established 4-star hotel with rooftop pool.', 4, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
-  ('Zostel Jaipur',              'Jaipur', 'C-Scheme', 'Backpackers hub with Rajasthani-themed interiors.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
-  ('Hotel Pearl Palace',         'Jaipur', 'Hathroi Fort, Ajmer Road', 'Award-winning budget hotel with artistic rooms.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('Rambagh Palace',             'Jaipur', 'Rajasthan', 'Bhawani Singh Road', 'Former royal residence turned into Indias finest palace hotel.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('The Oberoi Rajvilas',        'Jaipur', 'Rajasthan', 'Goner Road', 'Fort-like luxury resort set amid 32 acres of gardens.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('Taj Jai Mahal Palace',       'Jaipur', 'Rajasthan', 'Jacob Road, Civil Lines', 'Heritage palace hotel with 18 acres of Mughal gardens.', 5, 'palace', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('ITC Rajputana',              'Jaipur', 'Rajasthan', 'Palace Road', 'Rajputana-inspired luxury in the heart of the Pink City.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('Samode Haveli',              'Jaipur', 'Rajasthan', 'Gangapole', '175-year-old haveli with hand-painted frescoes.', 4, 'heritage', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('Clarks Amer',                'Jaipur', 'Rajasthan', 'JLN Marg', 'Well-established 4-star hotel with rooftop pool.', 4, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
+  ('Zostel Jaipur',              'Jaipur', 'Rajasthan', 'C-Scheme', 'Backpackers hub with Rajasthani-themed interiors.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
+  ('Hotel Pearl Palace',         'Jaipur', 'Rajasthan', 'Hathroi Fort, Ajmer Road', 'Award-winning budget hotel with artistic rooms.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6');
 
 -- ═══════════════════════════════════════════════════════════
 -- BANGALORE HOTELS (8)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('The Ritz-Carlton Bangalore',  'Bangalore', 'Residency Road', 'Urban luxury with skyline views and Michelin-level dining.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('Taj West End',                'Bangalore', 'Race Course Road', 'Heritage hotel set in 20 acres of tropical gardens.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('ITC Gardenia',                'Bangalore', 'Residency Road', 'LEED Platinum certified luxury with vertical gardens.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('The Leela Palace Bangalore',  'Bangalore', 'Old Airport Road', 'Royal-inspired luxury with gold-leaf interiors.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('Radisson Blu Atria',          'Bangalore', 'Palace Road', 'Contemporary hotel in the citys commercial heart.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('Lemon Tree Premier',          'Bangalore', 'Whitefield', 'Tech-corridor hotel with modern amenities.', 3, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
-  ('Hostel by the Blue',          'Bangalore', 'Indiranagar', 'Hip hostel in Bangalores trendiest neighborhood.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
-  ('The Paul Bangalore',          'Bangalore', 'Domlur', 'Design-led boutique hotel with eclectic interiors.', 4, 'boutique', TRUE, FALSE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('The Ritz-Carlton Bangalore',  'Bangalore', 'Karnataka', 'Residency Road', 'Urban luxury with skyline views and Michelin-level dining.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('Taj West End',                'Bangalore', 'Karnataka', 'Race Course Road', 'Heritage hotel set in 20 acres of tropical gardens.', 5, 'hotel', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('ITC Gardenia',                'Bangalore', 'Karnataka', 'Residency Road', 'LEED Platinum certified luxury with vertical gardens.', 5, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('The Leela Palace Bangalore',  'Bangalore', 'Karnataka', 'Old Airport Road', 'Royal-inspired luxury with gold-leaf interiors.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('Radisson Blu Atria',          'Bangalore', 'Karnataka', 'Palace Road', 'Contemporary hotel in the citys commercial heart.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('Lemon Tree Premier',          'Bangalore', 'Karnataka', 'Whitefield', 'Tech-corridor hotel with modern amenities.', 3, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'),
+  ('Hostel by the Blue',          'Bangalore', 'Karnataka', 'Indiranagar', 'Hip hostel in Bangalores trendiest neighborhood.', 1, 'hostel', FALSE, TRUE, 'https://images.unsplash.com/photo-1618773928121-c32f0da3ca25'),
+  ('The Paul Bangalore',          'Bangalore', 'Karnataka', 'Domlur', 'Design-led boutique hotel with eclectic interiors.', 4, 'boutique', TRUE, FALSE, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6');
 
 -- ═══════════════════════════════════════════════════════════
 -- ADDITIONAL CITIES (6 more hotels)
 -- ═══════════════════════════════════════════════════════════
 
-INSERT INTO hotels (name, city, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
-  ('Taj Lake Palace',             'Udaipur',    'Pichola Lake', 'Floating marble palace on Lake Pichola — pure magic.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
-  ('The Kumarakom Lake Resort',   'Kumarakom',  'Kumarakom North', 'Backwater-facing heritage resort with Ayurvedic spa.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
-  ('Wildflower Hall Shimla',      'Shimla',     'Chharabra', 'Himalayan luxury retreat at 8,250 feet elevation.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
-  ('Vivanta Dal View',            'Srinagar',   'Boulevard Road, Dal Lake', 'Lakeside luxury with views of the Zabarwan Mountains.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
-  ('Evolve Back Coorg',           'Coorg',      'Karadigodu Post', 'Plantation-inspired luxury villas amid coffee estates.', 5, 'villa', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
-  ('OYO Central Pune',            'Pune',       'Koregaon Park', 'Smart budget hotel in Punes hippest district.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
+INSERT INTO hotels (name, city, state, address, description, star_rating, property_type, free_cancellation, no_credit_card, image_url) VALUES
+  ('Taj Lake Palace',             'Udaipur',    'Rajasthan', 'Pichola Lake', 'Floating marble palace on Lake Pichola — pure magic.', 5, 'palace', TRUE, FALSE, 'https://images.unsplash.com/photo-1566073771259-6a8506099945'),
+  ('The Kumarakom Lake Resort',   'Kumarakom',  'Kerala', 'Kumarakom North', 'Backwater-facing heritage resort with Ayurvedic spa.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1582719508461-905c673771fd'),
+  ('Wildflower Hall Shimla',      'Shimla',     'Himachal Pradesh', 'Chharabra', 'Himalayan luxury retreat at 8,250 feet elevation.', 5, 'resort', TRUE, FALSE, 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'),
+  ('Vivanta Dal View',            'Srinagar',   'Jammu and Kashmir', 'Boulevard Road, Dal Lake', 'Lakeside luxury with views of the Zabarwan Mountains.', 4, 'hotel', TRUE, TRUE, 'https://images.unsplash.com/photo-1564501049412-61c2a3083791'),
+  ('Evolve Back Coorg',           'Coorg',      'Karnataka', 'Karadigodu Post', 'Plantation-inspired luxury villas amid coffee estates.', 5, 'villa', TRUE, FALSE, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'),
+  ('OYO Central Pune',            'Pune',       'Maharashtra', 'Koregaon Park', 'Smart budget hotel in Punes hippest district.', 2, 'hotel', FALSE, TRUE, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304');
 
 
 -- ═══════════════════════════════════════════════════════════

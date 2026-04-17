@@ -79,8 +79,8 @@ const searchValidationRules = [
 
   query('sort_by')
     .optional()
-    .isIn(['price_asc', 'price_desc', 'rating_desc', 'rating_asc', 'name_asc', 'name_desc'])
-    .withMessage('sort_by must be one of: price_asc, price_desc, rating_desc, rating_asc, name_asc, name_desc'),
+    .isIn(['price_asc', 'price_desc', 'rating_desc', 'rating_asc', 'name_asc', 'name_desc', 'price_low', 'price_high', 'rating', 'popularity'])
+    .withMessage('sort_by must be one of the allowed sort types'),
 
   query('page')
     .optional()

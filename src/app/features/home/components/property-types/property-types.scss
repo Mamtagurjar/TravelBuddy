@@ -8,10 +8,10 @@
 
 .section-title {
   font-family: $font-family-heading;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
+  font-size: 1.5rem;
+  font-weight: 700; // Extra bold
   color: $color-text-primary;
-  margin-bottom: $space-6;
+  margin-bottom: $space-8;
 }
 
 .property-carousel {
@@ -26,7 +26,10 @@
 .property-card {
   flex: 0 0 240px;
   cursor: pointer;
-
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  
   &:hover .property-card__img {
     transform: scale(1.05);
   }
@@ -35,8 +38,10 @@
 .property-card__image-wrapper {
   border-radius: $radius-lg;
   overflow: hidden;
-  margin-bottom: $space-2;
+  margin-bottom: $space-3;
   @include aspect-ratio(math.div(3, 2)); 
+  background: none !important;
+  box-shadow: none !important;
 }
 
 .property-card__img {
@@ -46,8 +51,24 @@
   transition: transform $duration-normal $ease-out;
 }
 
+.property-card__info {
+  margin-top: $space-2;
+}
+
 .property-card__title {
   font-size: $font-size-base;
-  font-weight: $font-weight-bold;
+  font-weight: 700;
   color: $color-text-primary;
+  margin-bottom: 2px;
+}
+
+.property-card__dates {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 2px;
+}
+
+.property-card__availability {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
 }
