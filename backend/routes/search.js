@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { searchHotels, getFilterOptions } = require('../services/searchService');
+const { searchHotels, getFilterOptions, getHotelById } = require('../services/searchService');
 const { searchValidationRules, handleValidationErrors } = require('../middleware/validateSearch');
 
 
@@ -66,5 +66,31 @@ router.get('/filters', async (req, res) => {
     });
   }
 });
+
+
+router.get('/:id', async (req, res) => {
+  try {
+    const hotel = await getHotelById(req.params.id);
+    if (!hotel) {
+      return res.status(404).json({
+        success: false,
+        message: 'Hotel not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      data: hotel,
+    });
+  } catch (error) {
+    console.error('🔴 Hotel detail error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while fetching hotel details',
+      ...(process.env.NODE_ENV === 'development' && { error: error.message }),
+    });
+  }
+});
+
 
 module.exports = router;

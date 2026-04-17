@@ -4,7 +4,7 @@ import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -13,18 +13,8 @@ export class RegisterComponent {
   private router = inject(Router);
 
   registerForm: FormGroup = this.fb.group({
-    fullName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
-  }, {
-    validators: this.passwordMatchValidator
+    email: ['', [Validators.required, Validators.email]]
   });
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
-  }
 
   onSubmit() {
     if (this.registerForm.valid) {

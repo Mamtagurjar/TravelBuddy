@@ -1,0 +1,551 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.hotel-details-container {
+  max-width: $container-xl;
+  margin: $space-4 auto;
+  padding: 0 $space-4;
+  font-family: $font-family-base;
+
+  @include md {
+    padding: 0 $space-8;
+  }
+}
+
+// ─── Breadcrumbs ──────────────────────────────────────────
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  margin-bottom: $space-6;
+
+  a {
+    color: #006ce4;
+    text-decoration: none;
+    font-size: $font-size-sm;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin: 0 $space-1;
+    color: #4a4a4a;
+  }
+
+  span {
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+  }
+}
+
+// ─── Nav Tabs ─────────────────────────────────────────────
+.nav-tabs {
+  display: flex;
+  gap: $space-6;
+  border-bottom: 1px solid $color-border-light;
+  margin-bottom: $space-6;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: $space-3 0;
+    font-size: $font-size-sm;
+    color: #1a1a1a;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+
+    &:hover {
+      background: #f2f2f2;
+    }
+
+    &.active {
+      color: #006ce4;
+      font-weight: $font-weight-bold;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: #006ce4;
+      }
+    }
+  }
+}
+
+// ─── Header Area ──────────────────────────────────────────
+.header-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $space-6;
+  flex-wrap: wrap;
+  gap: $space-4;
+}
+
+.title-section {
+  flex: 1;
+
+  h1 {
+    font-size: 24px;
+    font-weight: $font-weight-bold;
+    color: #1a1a1a;
+    margin: 0 0 $space-2 0;
+  }
+
+  .location-line {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-sm;
+    color: #1a1a1a;
+    flex-wrap: wrap;
+
+    .location-icon {
+      color: #006ce4;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+    }
+
+    .bullet {
+      margin: 0 $space-2;
+      color: #4a4a4a;
+    }
+
+    .location-rating {
+      color: #006ce4;
+      font-weight: $font-weight-bold;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $space-3;
+}
+
+.icon-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  .icon-btn {
+    background: transparent;
+    border: none;
+    color: #006ce4;
+    cursor: pointer;
+    padding: $space-2;
+    border-radius: 50%;
+    @include flex-center;
+
+    &:hover {
+      background: #f0f6ff;
+    }
+  }
+
+  .reserve-btn {
+    background: #006ce4;
+    color: white;
+    border: none;
+    border-radius: $radius-sm;
+    padding: $space-2 $space-4;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    margin-left: $space-2;
+
+    &:hover {
+      background: #005bb8;
+    }
+  }
+}
+
+.price-match {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+  color: #006ce4;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover span {
+    text-decoration: underline;
+  }
+}
+
+// ─── Main Content Grid ────────────────────────────────────
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: $space-4;
+  align-items: start;
+
+  @include max-lg {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Photo Gallery ────────────────────────────────────────
+.photos-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.main-photos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: $space-2;
+  height: 400px; // Fixed height for main spread
+
+  @include max-md {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .photo-large {
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .photo-stack {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    height: 100%;
+
+    @include max-md {
+      flex-direction: row;
+      height: 150px;
+    }
+
+    img {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0; // Fix flex bug
+    }
+  }
+}
+
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $space-2;
+  height: 100px;
+  
+  @include max-md {
+    height: 80px;
+    grid-template-columns: repeat(4, 1fr);
+    .thumb:nth-child(4) { display: none; }
+  }
+
+  .thumb {
+    width: 100%;
+    height: 100%;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &.more-photos {
+      position: relative;
+      cursor: pointer;
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        @include flex-center;
+        font-weight: $font-weight-bold;
+        font-size: $font-size-sm;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// ─── Sidebar ──────────────────────────────────────────────
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.review-card {
+  border: 1px solid $color-border-light;
+  border-radius: $radius-md;
+  padding: $space-4;
+
+  .score-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-4;
+
+    .score-text {
+      display: flex;
+      flex-direction: column;
+      
+      strong {
+        font-size: 16px;
+        color: #1a1a1a;
+      }
+      
+      span {
+        font-size: $font-size-xs;
+        color: $color-text-muted;
+      }
+    }
+
+    .score-badge {
+      background: #003580;
+      color: white;
+      font-weight: $font-weight-bold;
+      font-size: 16px;
+      width: 32px;
+      height: 32px;
+      @include flex-center;
+      border-radius: 4px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 0; // Booking style
+    }
+  }
+
+  .staff-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid $color-border-light;
+    padding-top: $space-3;
+
+    .staff-label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+    }
+
+    .staff-score {
+      font-size: $font-size-sm;
+      border: 1px solid #1a1a1a;
+      padding: 0 4px;
+      border-radius: 2px;
+      border-right: none;
+      border-top: none;
+      border-bottom: none; // Wait, booking style is usually a box or just text.
+      background: white;
+    }
+  }
+}
+
+.map-card {
+  position: relative;
+  border-radius: $radius-md;
+  overflow: hidden;
+  height: 250px;
+  cursor: pointer;
+  border: 1px solid $color-border-light;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+    background: rgba(255, 255, 255, 0.1);
+
+    .show-map-btn {
+      background: #006ce4;
+      color: white;
+      border: none;
+      padding: $space-2 $space-4;
+      border-radius: $radius-sm;
+      font-weight: $font-weight-bold;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: $shadow-md;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover {
+        background: #005bb8;
+      }
+    }
+  }
+}
+// ─── Property Highlights & Reserve Now ────────────────────
+.price-highlights {
+  background: #f0f6ff;
+  border-radius: $radius-md;
+  padding: $space-6;
+  border: 1px solid #cce1ff;
+
+  h3 {
+    font-size: 16px;
+    font-weight: $font-weight-bold;
+    color: #1a1a1a;
+    margin-bottom: $space-2;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: #1a1a1a;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-4;
+  }
+
+  .highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-2;
+    font-size: $font-size-sm;
+    color: #1a1a1a;
+    margin-bottom: $space-6;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #008009; // Eco/Good news green
+    }
+  }
+
+  .price-display {
+    margin-bottom: $space-4;
+
+    .amount {
+      display: block;
+      font-size: 24px;
+      font-weight: $font-weight-bold;
+      color: #1a1a1a;
+    }
+
+    .per-night {
+      font-size: $font-size-xs;
+      color: #4a4a4a;
+    }
+  }
+
+  .reserve-btn-large {
+    width: 100%;
+    background: #006ce4;
+    color: white;
+    border: none;
+    border-radius: $radius-sm;
+    padding: $space-5;
+    font-size: 16px;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+
+    &:hover {
+      background: #005bb8;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+// ─── Loading & Error States ──────────────────────────────
+.loading-state, .error-state {
+  @include flex-center;
+  flex-direction: column;
+  min-height: 400px;
+  text-align: center;
+  gap: $space-4;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #006ce4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-state {
+  h2 { color: $color-text-primary; }
+  p { color: $color-text-muted; }
+  button {
+    @include btn-primary;
+    padding: $space-2 $space-6;
+  }
+}
+
+// ─── Responsive Adjustments ─────────────────────────────
+@include max-lg {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    order: 2; // Sidebar below gallery on mobile
+  }
+}

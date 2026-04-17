@@ -418,4 +418,46 @@ async function getFilterOptions(city) {
   return result;
 }
 
-module.exports = { searchHotels, getFilterOptions };
+/**
+ * Fetch detailed information for a single hotel by ID.
+ */
+async function getHotelById(id) {
+  const hotelId = parseInt(id);
+  if (isNaN(hotelId)) return null;
+
+  const query = `
+    SELECT 
+      h.*,
+      h.no_credit_card AS no_credit_card_needed,
+      h.image_url AS main_image,
+      (
+        SELECT MIN(price_per_night) 
+        FROM rooms 
+        WHERE hotel_id = h.id AND is_available = TRUE
+      ) AS price_per_night,
+      COALESCE(
+        (SELECT JSON_AGG(DISTINCT am.label)
+         FROM room_amenities ra
+         JOIN amenities am ON am.id = ra.amenity_id
+         INNER JOIN rooms r ON r.id = ra.room_id
+         WHERE r.hotel_id = h.id),
+        '[]'
+      ) AS amenities,
+      COALESCE(
+        (SELECT JSON_AGG(JSON_BUILD_OBJECT('id', r.id, 'name', r.room_type, 'price', r.price_per_night, 'bed_type', r.bed_type, 'capacity', r.capacity_adults))
+         FROM rooms r
+         WHERE r.hotel_id = h.id AND r.is_available = TRUE),
+        '[]'
+      ) AS rooms
+
+    FROM hotels h
+    WHERE h.id = $1
+  `;
+
+  const result = await db.query(query, [hotelId]);
+  return result.rows[0] || null;
+}
+
+
+module.exports = { searchHotels, getFilterOptions, getHotelById };
+

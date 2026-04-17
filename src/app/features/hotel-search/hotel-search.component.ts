@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { distinctUntilChanged, switchMap, tap, debounceTime } from 'rxjs';
 import { HotelService } from '../../core/services/hotel.service';
 import { Hotel, FilterOptions, FilterOption, SearchFilters } from '../../core/models/hotel.model';
@@ -11,7 +11,7 @@ import { SearchBarComponent } from '../../shared/components/search-bar/search-ba
 @Component({
   selector: 'app-hotel-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, SearchBarComponent, MatSliderModule],
+  imports: [CommonModule, FormsModule, RouterModule, SearchBarComponent, MatSliderModule],
   templateUrl: './hotel-search.component.html',
   styleUrls: ['./hotel-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -111,8 +111,11 @@ export class HotelSearchComponent implements OnInit {
       queryParamsHandling: 'merge'
     });
 
-    // Scroll to top of results
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll results area back to top
+    const scrollArea = document.querySelector('.results-scroll-area');
+    if (scrollArea) {
+      scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   /**

@@ -183,7 +183,7 @@
                 <span class="price">₹{{ hotel.price_per_night }}</span>
                 <p class="tax-info">+ ₹{{ (hotel.price_per_night * 0.12).toFixed(0) }} taxes & fees</p>
               </div>
-              <button class="view-btn">View Deal</button>
+              <button class="view-btn" [routerLink]="['/hotel', hotel.id]">View Deal</button>
             </div>
           </div>
         </div>

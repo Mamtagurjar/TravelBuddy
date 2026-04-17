@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, MatIconModule],
+  imports: [ReactiveFormsModule, MatIconModule],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
@@ -14,8 +14,7 @@ export class LoginComponent {
   private router = inject(Router);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    email: ['', [Validators.required, Validators.email]]
   });
 
   onSubmit() {

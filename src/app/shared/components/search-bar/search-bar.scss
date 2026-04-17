@@ -101,7 +101,7 @@
   align-items: center;
   gap: $space-2;
   font-size: $font-size-sm;
-  color: #1a1a1a;
+  color: #fff;
   cursor: pointer;
 
   input[type='checkbox'] {
@@ -296,6 +296,7 @@
     .sub {
       font-size: $font-size-xs;
       color: #4a4a4a;
+      margin-top: 2px;
     }
   }
 
@@ -476,12 +477,12 @@
 
 .custom-calendar {
   width: 350px !important;
-  
+
   ::ng-deep {
     .mat-calendar-header {
       background: transparent;
     }
-    
+
     /* Remove automatic styling from "today" */
     .mat-calendar-body-today:not(.mat-calendar-body-selected) {
       border: none !important;
@@ -494,12 +495,12 @@
       color: white !important;
       border-radius: 50%;
     }
-    
+
     /* Remove the light-blue connecting highlight between the two dates */
     .mat-calendar-body-in-range::before {
       background: transparent !important;
     }
-    
+
     .mat-calendar-table-header th {
       color: #4a4a4a;
       font-weight: $font-weight-medium;
@@ -570,4 +571,3 @@
     transform: translateY(0) translateX(-50%);
   }
 }
-

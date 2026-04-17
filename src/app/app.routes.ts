@@ -40,6 +40,13 @@ export const routes: Routes = [
             (m) => m.HotelSearchComponent
           ),
       },
+      {
+        path: 'hotel/:id',
+        loadComponent: () =>
+          import('./features/hotel-details/hotel-details').then(
+            (m) => m.HotelDetailsComponent
+          ),
+      },
     ],
   },
 

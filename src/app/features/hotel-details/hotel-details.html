@@ -1,0 +1,141 @@
+<div class="hotel-details-container">
+
+  @if (isLoading) {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading hotel details...</p>
+  </div>
+  } @else if (!hotel) {
+  <div class="error-state">
+    <h2>Hotel not found</h2>
+    <p>We couldn't find the hotel you're looking for.</p>
+    <button routerLink="/search">Back to Search</button>
+  </div>
+  } @else {
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs">
+    <a routerLink="/">Home</a> <mat-icon>chevron_right</mat-icon>
+    <a routerLink="/search">Hotels</a> <mat-icon>chevron_right</mat-icon>
+    <a [routerLink]="['/search']" [queryParams]="{city: hotel.city}">{{ hotel.city }}</a> <mat-icon>chevron_right</mat-icon>
+    <span>{{ hotel.name }}</span>
+  </nav>
+
+  <!-- Nav Tabs -->
+  <div class="nav-tabs">
+    <button class="active">Overview</button>
+    <button>Prices</button>
+    <button>Facilities</button>
+    <button>House rules</button>
+    <button>Important and legal info</button>
+    <button>Guest reviews</button>
+  </div>
+
+  <!-- Header Area -->
+  <div class="header-area">
+    <div class="title-section">
+      <div class="title-top">
+        <h1>{{ hotel.name }}</h1>
+        <div class="stars">
+          @for (star of [].constructor(hotel.star_rating); track $index) {
+          <mat-icon>star</mat-icon>
+          }
+        </div>
+      </div>
+      <div class="location-line">
+        <mat-icon class="location-icon">location_on</mat-icon>
+        <span>{{ hotel.address }}, {{ hotel.city }}</span>
+        <span class="bullet">•</span>
+        <span class="location-rating">Excellent location — show map</span>
+      </div>
+    </div>
+    <div class="actions-section">
+      <div class="icon-actions">
+        <button class="icon-btn"><mat-icon>favorite_border</mat-icon></button>
+        <button class="icon-btn"><mat-icon>share</mat-icon></button>
+        <button class="reserve-btn">Reserve</button>
+      </div>
+      <div class="price-match">
+        <mat-icon>local_offer</mat-icon>
+        <span>We Price Match</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="content-grid">
+
+    <!-- Photo Gallery -->
+    <div class="photos-section">
+      <div class="main-photos">
+        <div class="photo-large">
+          <img [src]="hotel.main_image || '/assets/images/placeholder-hotel.jpg'" [alt]="hotel.name">
+        </div>
+        <div class="photo-stack">
+          <!-- Fallback if images array doesn't exist yet -->
+          <img [src]="hotel.main_image" alt="Hotel View">
+          <img [src]="hotel.main_image" alt="Room View">
+        </div>
+      </div>
+      <div class="thumbnails">
+        @for (amenity of hotel.amenities.slice(0, 4); track amenity) {
+        <div class="thumb-label">
+          <mat-icon>check_circle</mat-icon>
+          <span>{{ amenity }}</span>
+        </div>
+        }
+        <div class="thumb more-photos">
+          <img [src]="hotel.main_image" alt="More Photos">
+          <div class="overlay">+{{ hotel.amenities.length }} Facilities</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <div class="review-card">
+        <div class="score-row">
+          <div class="score-text">
+            <strong>Good</strong>
+            <span>Verified reviews</span>
+          </div>
+          <div class="score-badge">{{ hotel.star_rating * 1.5 }}</div>
+        </div>
+
+        <div class="staff-row">
+          <span class="staff-label">Staff</span>
+          <span class="staff-score">8.5</span>
+        </div>
+      </div>
+
+      <!-- @if (mapUrl) {
+      <div class="map-card">
+        <img [src]="mapUrl" alt="Map Location">
+        <div class="map-overlay">
+          <button class="show-map-btn">
+            <mat-icon>location_on</mat-icon>
+            Show on map
+          </button>
+        </div>
+      </div>
+      } -->
+
+      <div class="price-highlights">
+        <h3>Property Highlights</h3>
+        <p>Perfect for a 1-night stay!</p>
+        <div class="highlight-item">
+          <!-- <mat-icon>location_city</mat-icon> -->
+          <!-- <span>Located in the heart of {{ hotel.city }}</span> -->
+        </div>
+        <div class="price-display">
+          <span class="amount">₹{{ hotel.price_per_night }}</span>
+          <span class="per-night">per night</span>
+        </div>
+        <button class="reserve-btn-large" (click)="bookHotel()">Reserve Now</button>
+      </div>
+
+    </div>
+  </div>
+  }
+
+</div>
