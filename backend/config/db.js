@@ -5,10 +5,11 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT) || 5432,
   database: process.env.DB_NAME || 'travelbuddy',
   user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || '11Mamta2004',
+  password: process.env.DB_PASSWORD || 'ashish@123',
+  // password: process.env.DB_PASSWORD || '11Mamta2004',
   // Connection pool settings for production readiness
-  max: 20,                    // Maximum number of clients in the pool
-  idleTimeoutMillis: 30000,   // Close idle clients after 30 seconds
+  max: 20, // Maximum number of clients in the pool
+  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
   connectionTimeoutMillis: 5000, // Fail fast if can't connect in 5s
 });
 

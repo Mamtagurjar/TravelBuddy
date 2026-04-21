@@ -11,12 +11,11 @@
 @use 'mixins' as *;
 
 .header {
-  background: $tb-teal-900;
+  background:$tb-teal-700;
   position: sticky;
   top: 0;
   z-index: $z-header;
   box-shadow: $shadow-header;
-
 }
 
 .header__container {

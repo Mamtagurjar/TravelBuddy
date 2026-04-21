@@ -64,11 +64,11 @@
 }
 
 .offer-banner__btn {
-  background: $color-primary-light; // Teal-500
+  background: $tb-teal-500; // Teal-500
   color: $tb-white;
   font-weight: $font-weight-bold;
 
-  &:hover {
+  &:hover { 
     background: $tb-teal-600;
   }
 }

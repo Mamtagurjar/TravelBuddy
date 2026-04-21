@@ -1,3 +1,6 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
 .search-page-container {
   display: flex;
   flex-wrap: wrap;
@@ -11,11 +14,12 @@
     flex: 1 1 100%;
     margin-bottom: 2rem;
     padding: 1.5rem;
-    background: #003580;
+    background: $tb-teal-700;
     margin-left: -1rem;
     margin-right: -1rem;
     display: flex;
     justify-content: center;
+    margin-top: 2px;
   }
 
   // 30% Sidebar
