@@ -1,7 +1,3 @@
-// ============================================
-// Generic API Response Interfaces
-// ============================================
-
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
