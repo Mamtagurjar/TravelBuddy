@@ -43,7 +43,7 @@
       <p><strong>Transaction ID:</strong> {{ booking.transactionId }}</p>
 
       <div class="actions">
-        <button (click)="viewDetails(booking.bookingId)">View Details</button>
+        <!-- <button (click)="viewDetails(booking.bookingId)">View Details</button> -->
         <button (click)="downloadInvoice(booking.bookingId)">Download Invoice</button>
         @if(booking.bookingStatus !== 'Cancelled'){
         <button (click)="cancelBooking(booking.bookingId)">Cancel
