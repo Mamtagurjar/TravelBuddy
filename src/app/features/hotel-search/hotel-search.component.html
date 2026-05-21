@@ -128,14 +128,14 @@
   <main class="results-grid">
     <div class="results-header">
       @if (!isLoading) {
-      <h2>Found {{ hotels.length }} hotels</h2>
+      <h2>Found {{ totalResults }} hotels</h2>
       } @else {
       <h2>Searching...</h2>
       }
 
       <div class="sort-dropdown">
         <span>Sort by: </span>
-        <select (change)="toggleFilter('sort_by', $any($event.target).value)">
+        <select [ngModel]="searchParams.sort_by || 'popularity'" (change)="setFilter('sort_by', $any($event.target).value)">
           <option value="popularity">Popularity</option>
           <option value="price_low">Price (Low to High)</option>
           <option value="price_high">Price (High to Low)</option>
@@ -156,6 +156,13 @@
     @if (!isLoading) {
     <div class="results-scroll-area">
       <div class="hotel-cards-container">
+        @if (errorMessage) {
+        <div class="no-results">
+          <h3>Unable to Load Hotels</h3>
+          <p>{{ errorMessage }}</p>
+          <button class="retry-btn" (click)="retrySearch()">Retry Search</button>
+        </div>
+        } @else {
         @for (hotel of hotels; track hotel.id) {
         <div class="hotel-card">
           <div class="hotel-image">
@@ -193,6 +200,7 @@
           <h3>No Data Found</h3>
           <p>Try removing some filters to see more results.</p>
         </div>
+        }
         }
       </div>
     </div>

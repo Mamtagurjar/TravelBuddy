@@ -1,5 +1,4 @@
 <div class="hotel-details-container">
-
   @if (isLoading) {
   <div class="loading-state">
     <div class="spinner"></div>
@@ -12,15 +11,16 @@
     <button routerLink="/search">Back to Search</button>
   </div>
   } @else {
-  <!-- Breadcrumbs -->
   <nav class="breadcrumbs">
-    <a routerLink="/">Home</a> <mat-icon>chevron_right</mat-icon>
-    <a routerLink="/search">Hotels</a> <mat-icon>chevron_right</mat-icon>
-    <a [routerLink]="['/search']" [queryParams]="{city: hotel.city}">{{ hotel.city }}</a> <mat-icon>chevron_right</mat-icon>
+    <a routerLink="/">Home</a>
+    <mat-icon>chevron_right</mat-icon>
+    <a routerLink="/search">Hotels</a>
+    <mat-icon>chevron_right</mat-icon>
+    <a [routerLink]="['/search']" [queryParams]="{ city: hotel.city }">{{ hotel.city }}</a>
+    <mat-icon>chevron_right</mat-icon>
     <span>{{ hotel.name }}</span>
   </nav>
 
-  <!-- Nav Tabs -->
   <div class="nav-tabs">
     <button class="active">Overview</button>
     <button>Prices</button>
@@ -30,7 +30,6 @@
     <button>Guest reviews</button>
   </div>
 
-  <!-- Header Area -->
   <div class="header-area">
     <div class="title-section">
       <div class="title-top">
@@ -44,8 +43,8 @@
       <div class="location-line">
         <mat-icon class="location-icon">location_on</mat-icon>
         <span>{{ hotel.address }}, {{ hotel.city }}</span>
-        <span class="bullet">•</span>
-        <span class="location-rating">Excellent location — show map</span>
+        <span class="bullet">&bull;</span>
+        <span class="location-rating">Excellent location - show map</span>
       </div>
     </div>
     <div class="actions-section">
@@ -61,17 +60,13 @@
     </div>
   </div>
 
-  <!-- Main Content Grid -->
   <div class="content-grid">
-
-    <!-- Photo Gallery -->
     <div class="photos-section">
       <div class="main-photos">
         <div class="photo-large">
           <img [src]="hotel.main_image || '/assets/images/placeholder-hotel.jpg'" [alt]="hotel.name">
         </div>
         <div class="photo-stack">
-          <!-- Fallback if images array doesn't exist yet -->
           <img [src]="hotel.main_image" alt="Hotel View">
           <img [src]="hotel.main_image" alt="Room View">
         </div>
@@ -90,9 +85,7 @@
       </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-
+    <aside class="sidebar">
       <div class="review-card">
         <div class="score-row">
           <div class="score-text">
@@ -108,132 +101,268 @@
         </div>
       </div>
 
-      <!-- @if (mapUrl) {
-      <div class="map-card">
-        <img [src]="mapUrl" alt="Map Location">
-        <div class="map-overlay">
-          <button class="show-map-btn">
-            <mat-icon>location_on</mat-icon>
-            Show on map
+      @switch (bookingState) {
+      @case ('overview') {
+      <section class="price-highlights slide-in">
+        <h3>Property Highlights</h3>
+        <p>Perfect for a 1-night stay!</p>
+        <div class="highlight-item">
+          <mat-icon>check</mat-icon>
+          <span>Instant Confirmation</span>
+        </div>
+        <div class="price-display">
+          <span class="amount">&#8377;{{ hotel.price_per_night }}</span>
+          <span class="per-night">per night</span>
+        </div>
+        <button class="reserve-btn-large" (click)="startBooking()">Reserve Now</button>
+      </section>
+      }
+
+      @case ('bookingForm') {
+      <form
+        class="booking-form-card booking-form slide-in"
+        #bookingDetailsForm="ngForm"
+        (ngSubmit)="proceedToPayment(bookingDetailsForm)"
+      >
+        <h3>Guest Details</h3>
+
+        <div class="form-group">
+          <label for="guest-name">Full Name</label>
+          <input
+            id="guest-name"
+            type="text"
+            name="guestName"
+            [(ngModel)]="bookingForm.guestName"
+            placeholder="Enter your name"
+            required
+            #guestNameModel="ngModel"
+          >
+          @if (guestNameModel.invalid && guestNameModel.touched) {
+          <p class="form-error">Please enter your full name.</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="guest-email">Email Address</label>
+          <input
+            id="guest-email"
+            type="email"
+            name="guestEmail"
+            [(ngModel)]="bookingForm.guestEmail"
+            placeholder="Enter email"
+            required
+            email
+            #guestEmailModel="ngModel"
+          >
+          @if (guestEmailModel.invalid && guestEmailModel.touched) {
+          <p class="form-error">Please enter a valid email address.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="check-in-date">Check-in</label>
+            <input
+              id="check-in-date"
+              type="date"
+              name="checkInDate"
+              [(ngModel)]="bookingForm.checkInDate"
+              required
+              #checkInModel="ngModel"
+            >
+            @if (checkInModel.invalid && checkInModel.touched) {
+            <p class="form-error">Please select a check-in date.</p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="check-out-date">Check-out</label>
+            <input
+              id="check-out-date"
+              type="date"
+              name="checkOutDate"
+              [(ngModel)]="bookingForm.checkOutDate"
+              required
+              #checkOutModel="ngModel"
+            >
+            @if (checkOutModel.invalid && checkOutModel.touched) {
+            <p class="form-error">Please select a check-out date.</p>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adult-count">Adults</label>
+            <input
+              id="adult-count"
+              type="number"
+              name="adults"
+              min="1"
+              [(ngModel)]="bookingForm.adults"
+              required
+              #adultCountModel="ngModel"
+            >
+            @if (adultCountModel.invalid && adultCountModel.touched) {
+            <p class="form-error">At least one adult is required.</p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="children-count">Children</label>
+            <input
+              id="children-count"
+              type="number"
+              name="children"
+              min="0"
+              [(ngModel)]="bookingForm.children"
+            >
+          </div>
+        </div>
+
+        <div class="price-summary">
+          <span>Total Amount:</span>
+          <strong>&#8377;{{ bookingAmount }}</strong>
+        </div>
+
+        <button type="submit" class="reserve-btn-large">
+          <mat-icon>lock</mat-icon>
+          Proceed to Payment
+        </button>
+        <button type="button" class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
+      </form>
+      }
+
+      @case ('processing') {
+      <div class="processing-card fade-in">
+        <div class="spinner"></div>
+        <h3>Processing Payment</h3>
+        <p>Please wait while we securely connect to the payment gateway...</p>
+      </div>
+      }
+
+      @case ('success') {
+      <div class="success-card scale-in">
+        <div class="success-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <h3>Payment Successful!</h3>
+        <p>Your booking at <strong>{{ hotel.name }}</strong> is confirmed.</p>
+
+        <div class="transaction-details">
+          <div class="detail-row">
+            <span>Booking ID:</span>
+            <strong>#TB{{ transactionDetails?.bookingId }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>Transaction ID:</span>
+            <strong>{{ transactionDetails?.paymentId }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>Amount Paid:</span>
+            <strong>&#8377;{{ transactionDetails?.amount }}</strong>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="primary-btn" (click)="downloadInvoice()">
+            <mat-icon>download</mat-icon>
+            Invoice
+          </button>
+          <button
+            class="secondary-btn"
+            routerLink="/bookings"
+            [queryParams]="{ email: normalizedGuestEmail }"
+          >
+            My Bookings
           </button>
         </div>
       </div>
-      } -->
-
-      @switch (bookingState) {
-        @case ('overview') {
-          <div class="price-highlights slide-in">
-            <h3>Property Highlights</h3>
-            <p>Perfect for a 1-night stay!</p>
-            <div class="highlight-item">
-              <mat-icon>check</mat-icon>
-              <span>Instant Confirmation</span>
-            </div>
-            <div class="price-display">
-              <span class="amount">₹{{ hotel.price_per_night }}</span>
-              <span class="per-night">per night</span>
-            </div>
-            <button class="reserve-btn-large" (click)="startBooking()">Reserve Now</button>
-          </div>
-        }
-
-        @case ('bookingForm') {
-          <div class="booking-form-card slide-in">
-            <h3>Guest Details</h3>
-            <div class="form-group">
-              <label>Full Name</label>
-              <input type="text" [(ngModel)]="bookingForm.guestName" placeholder="Enter your name">
-            </div>
-            <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" [(ngModel)]="bookingForm.guestEmail" placeholder="Enter email">
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Check-in</label>
-                <input type="date" [(ngModel)]="bookingForm.checkInDate">
-              </div>
-              <div class="form-group">
-                <label>Check-out</label>
-                <input type="date" [(ngModel)]="bookingForm.checkOutDate">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Adults</label>
-                <input type="number" min="1" [(ngModel)]="bookingForm.adults">
-              </div>
-              <div class="form-group">
-                <label>Children</label>
-                <input type="number" min="0" [(ngModel)]="bookingForm.children">
-              </div>
-            </div>
-            
-            <div class="price-summary">
-              <span>Total Amount:</span>
-              <strong>₹{{ hotel.price_per_night }}</strong>
-            </div>
-
-            <button class="reserve-btn-large" (click)="proceedToPayment()">
-              <mat-icon>lock</mat-icon> Proceed to Payment
-            </button>
-            <button class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
-          </div>
-        }
-
-        @case ('processing') {
-          <div class="processing-card fade-in">
-            <div class="spinner"></div>
-            <h3>Processing Payment</h3>
-            <p>Please wait while we securely connect to the payment gateway...</p>
-          </div>
-        }
-
-        @case ('success') {
-          <div class="success-card scale-in">
-            <div class="success-icon">
-              <mat-icon>check_circle</mat-icon>
-            </div>
-            <h3>Payment Successful!</h3>
-            <p>Your booking at <strong>{{ hotel.name }}</strong> is confirmed.</p>
-            
-            <div class="transaction-details">
-              <div class="detail-row">
-                <span>Booking ID:</span>
-                <strong>#TB{{ transactionDetails?.bookingId }}</strong>
-              </div>
-              <div class="detail-row">
-                <span>Transaction ID:</span>
-                <strong>{{ transactionDetails?.paymentId }}</strong>
-              </div>
-              <div class="detail-row">
-                <span>Amount Paid:</span>
-                <strong>₹{{ transactionDetails?.amount }}</strong>
-              </div>
-            </div>
-
-            <div class="action-buttons">
-              <button class="primary-btn" (click)="downloadInvoice()"><mat-icon>download</mat-icon> Invoice</button>
-              <button class="secondary-btn" routerLink="/bookings">My Bookings</button>
-            </div>
-          </div>
-        }
-
-        @case ('failed') {
-          <div class="failed-card shake">
-            <div class="error-icon">
-              <mat-icon>error</mat-icon>
-            </div>
-            <h3>Payment Failed</h3>
-            <p>We couldn't process your payment. Please try again.</p>
-            <button class="reserve-btn-large" (click)="proceedToPayment()">Retry Payment</button>
-            <button class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
-          </div>
-        }
       }
 
-    </div>
+      @case ('failed') {
+      <div class="failed-card shake">
+        <div class="error-icon">
+          <mat-icon>error</mat-icon>
+        </div>
+        <h3>Payment Failed</h3>
+        <p>We couldn't process your payment. Please try again.</p>
+        <button class="reserve-btn-large" (click)="startBooking()">Retry Payment</button>
+        <button class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
+      </div>
+      }
+      }
+    </aside>
+  </div>
+
+  @if (transactionDetails) {
+  <div class="invoice-print-root" aria-hidden="true">
+    <article #invoiceTemplate class="invoice-box invoice-template">
+      <div class="invoice-header">
+        <div class="invoice-logo">TravelBuddy</div>
+        <div class="invoice-title">INVOICE</div>
+      </div>
+
+      <div class="invoice-details">
+        <div class="details-col">
+          <h4>Billed To</h4>
+          <p><strong>{{ bookingForm.guestName }}</strong></p>
+          <p>{{ normalizedGuestEmail }}</p>
+        </div>
+        <div class="details-col details-col--right">
+          <h4>Booking Details</h4>
+          <p><strong>Booking ID:</strong> #TB{{ transactionDetails.bookingId }}</p>
+          <p><strong>Transaction ID:</strong> {{ transactionDetails.paymentId }}</p>
+          <p><strong>Date:</strong> {{ bookingForm.checkInDate | date:'mediumDate' }}</p>
+        </div>
+      </div>
+
+      <table class="details-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th class="amount-col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Booking at {{ hotel.name }}</strong><br>
+              <span class="invoice-muted">{{ hotel.address }}, {{ hotel.city }}</span><br>
+              <span class="invoice-muted">Guests: {{ guestSummary }}</span>
+            </td>
+            <td>{{ bookingForm.checkInDate }}</td>
+            <td>{{ bookingForm.checkOutDate }}</td>
+            <td class="amount-col">&#8377;{{ transactionDetails.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total-section">
+        <div class="total-box">
+          <div>
+            <span>Room Charges:</span>
+            <span>&#8377;{{ transactionDetails.amount }}</span>
+          </div>
+          <div>
+            <span>Taxes & Fees:</span>
+            <span>&#8377;0.00</span>
+          </div>
+          <div class="grand-total">
+            <span>Total Paid:</span>
+            <span>&#8377;{{ transactionDetails.amount }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="invoice-footer">
+        <p>Thank you for choosing TravelBuddy!</p>
+        <p>For any queries, contact support@travelbuddy.com</p>
+      </div>
+    </article>
   </div>
   }
-
+  }
 </div>

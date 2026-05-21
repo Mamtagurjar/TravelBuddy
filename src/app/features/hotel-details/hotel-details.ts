@@ -1,14 +1,16 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule, NgForm } from '@angular/forms';
+import { switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HotelService } from '../../core/services/hotel.service';
-import { switchMap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { BookingFormValue, TransactionDetails } from '../../core/interfaces/common.interfaces';
 
 @Component({
   selector: 'app-hotel-details',
@@ -18,13 +20,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './hotel-details.scss'
 })
 export class HotelDetailsComponent implements OnInit {
+  @ViewChild('invoiceTemplate') invoiceTemplate?: ElementRef<HTMLElement>;
+
+  private readonly document = inject(DOCUMENT);
+  private readonly bookingEmailStorageKey = 'travelBuddyGuestEmail';
+  private readonly paymentsApiUrl = `${environment.apiUrl}/payment`;
+
   hotel: any = null;
   isLoading = true;
   mapUrl: SafeResourceUrl | null = null;
-
   bookingState: 'overview' | 'bookingForm' | 'processing' | 'success' | 'failed' = 'overview';
-  
-  bookingForm = {
+
+  bookingForm: BookingFormValue = {
     guestName: 'John Doe',
     guestEmail: 'johndoe@example.com',
     checkInDate: new Date().toISOString().split('T')[0],
@@ -33,7 +40,7 @@ export class HotelDetailsComponent implements OnInit {
     children: 0
   };
 
-  transactionDetails: any = null;
+  transactionDetails: TransactionDetails | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,13 +74,21 @@ export class HotelDetailsComponent implements OnInit {
     });
   }
 
-  private updateMapUrl(): void {
-    if (!this.hotel) return;
-    const lat = this.hotel.latitude || 19.0896;
-    const lng = this.hotel.longitude || 72.8656;
-    const apiKey = environment.googleMapsApiKey;
-    const rawUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=600x300&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
+  get bookingAmount(): number {
+    const selectedRoom = this.getSelectedRoom();
+    return Number(selectedRoom?.price ?? this.hotel?.price_per_night ?? 0);
+  }
+
+  get normalizedGuestEmail(): string {
+    return this.bookingForm.guestEmail.trim().toLowerCase();
+  }
+
+  get guestSummary(): string {
+    const adultLabel = `${this.bookingForm.adults} ${this.bookingForm.adults === 1 ? 'Adult' : 'Adults'}`;
+    const childLabel = this.bookingForm.children > 0
+      ? `, ${this.bookingForm.children} ${this.bookingForm.children === 1 ? 'Child' : 'Children'}`
+      : '';
+    return `${adultLabel}${childLabel}`;
   }
 
   startBooking(): void {
@@ -81,25 +96,35 @@ export class HotelDetailsComponent implements OnInit {
     this.bookingState = 'bookingForm';
   }
 
-  proceedToPayment(): void {
-    if (!this.hotel) return;
+  proceedToPayment(bookingDetailsForm: NgForm): void {
+    if (bookingDetailsForm.invalid || !this.hotel) {
+      bookingDetailsForm.control.markAllAsTouched();
+      return;
+    }
+
+    const selectedRoom = this.getSelectedRoom();
+
+    if (this.normalizedGuestEmail) {
+      window.localStorage.setItem(this.bookingEmailStorageKey, this.normalizedGuestEmail);
+    }
+
     this.bookingState = 'processing';
-    
-    // 1. Create booking and order on the backend
-    this.http.post<any>('http://localhost:5000/api/payment/create-order', {
-      hotel_id: this.hotel.id,
-      room_id: 1, // Defaulting to 1 for demo purposes
-      guest_name: this.bookingForm.guestName,
-      guest_email: this.bookingForm.guestEmail,
-      check_in_date: this.bookingForm.checkInDate,
-      check_out_date: this.bookingForm.checkOutDate,
-      adults: this.bookingForm.adults,
-      children: this.bookingForm.children,
-      amount: this.hotel.price_per_night
-    }).subscribe({
+
+    this.http.post<any>(`${this.paymentsApiUrl}/create-order`, this.buildPaymentPayload(selectedRoom)).subscribe({
       next: (response) => {
         if (response.success && response.order) {
-          // 2. Open Razorpay Checkout Modal
+          if (response.mock) {
+            this.bookingState = 'success';
+            this.transactionDetails = {
+              bookingId: response.booking_id,
+              paymentId: response.order.id,
+              orderId: response.order.id,
+              amount: (response.order.amount || 0) / 100
+            };
+            this.cdr.detectChanges();
+            return;
+          }
+
           const options = {
             key: environment.razorpayKeyId || 'rzp_test_SrAzGjUm9tquXy',
             amount: response.order.amount,
@@ -107,14 +132,13 @@ export class HotelDetailsComponent implements OnInit {
             name: 'TravelBuddy',
             description: `Booking at ${this.hotel.name}`,
             image: '/assets/images/logo.png',
-            order_id: response.order.id, 
+            order_id: response.order.id,
             handler: (paymentResponse: any) => {
-              // 3. Verify payment on the backend
               this.verifyPayment(paymentResponse, response.booking_id);
             },
             prefill: {
-              name: this.bookingForm.guestName,
-              email: this.bookingForm.guestEmail,
+              name: this.bookingForm.guestName.trim(),
+              email: this.normalizedGuestEmail,
               contact: '9999999999'
             },
             theme: { color: '#0D9488' },
@@ -131,6 +155,7 @@ export class HotelDetailsComponent implements OnInit {
         } else {
           this.bookingState = 'failed';
         }
+
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -145,16 +170,16 @@ export class HotelDetailsComponent implements OnInit {
     this.bookingState = 'processing';
     this.cdr.detectChanges();
 
-    this.http.post<any>('http://localhost:5000/api/payment/verify', paymentResponse)
+    this.http.post<any>(`${this.paymentsApiUrl}/verify`, paymentResponse)
       .subscribe({
         next: (res) => {
           if (res.success) {
             this.bookingState = 'success';
             this.transactionDetails = {
-              bookingId: bookingId,
+              bookingId,
               paymentId: paymentResponse.razorpay_payment_id,
               orderId: paymentResponse.razorpay_order_id,
-              amount: this.hotel.price_per_night
+              amount: this.bookingAmount
             };
           } else {
             this.bookingState = 'failed';
@@ -178,111 +203,67 @@ export class HotelDetailsComponent implements OnInit {
       return;
     }
 
+    const invoiceMarkup = this.invoiceTemplate?.nativeElement.outerHTML;
+    if (!invoiceMarkup) {
+      printWindow.close();
+      return;
+    }
+
+    const headMarkup = Array.from(this.document.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map((node) => node.outerHTML)
+      .join('\n');
+
     const htmlContent = `
       <html>
-      <head>
-        <title>Invoice - TravelBuddy</title>
-        <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; margin: 0; padding: 40px; line-height: 1.6; }
-          .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-size: 16px; border-radius: 10px; }
-          .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0D9488; padding-bottom: 20px; margin-bottom: 30px; }
-          .logo { font-size: 28px; font-weight: bold; color: #0D9488; text-decoration: none; }
-          .title { font-size: 24px; font-weight: bold; color: #333; text-align: right; }
-          .invoice-details { display: flex; justify-content: space-between; margin-bottom: 30px; }
-          .details-col h4 { margin: 0 0 8px 0; color: #666; font-size: 14px; text-transform: uppercase; }
-          .details-col p { margin: 0 0 4px 0; font-size: 15px; }
-          .details-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-          .details-table th { background: #f9fafb; text-align: left; padding: 12px; font-weight: 600; border-bottom: 2px solid #e5e7eb; color: #4b5563; }
-          .details-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; }
-          .total-section { display: flex; justify-content: flex-end; margin-top: 20px; font-size: 18px; }
-          .total-box { border-top: 2px solid #0D9488; padding-top: 10px; width: 250px; text-align: right; }
-          .total-box div { display: flex; justify-content: space-between; margin-bottom: 6px; }
-          .grand-total { font-size: 20px; font-weight: bold; color: #0D9488; }
-          .footer { text-align: center; margin-top: 50px; font-size: 14px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 20px; }
-          @media print {
-            body { padding: 0; }
-            .invoice-box { border: none; box-shadow: none; }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="invoice-box">
-          <div class="header">
-            <div class="logo">TravelBuddy</div>
-            <div class="title">INVOICE</div>
-          </div>
-          
-          <div class="invoice-details">
-            <div class="details-col">
-              <h4>Billed To</h4>
-              <p><strong>${this.bookingForm.guestName}</strong></p>
-              <p>${this.bookingForm.guestEmail}</p>
-            </div>
-            <div class="details-col" style="text-align: right;">
-              <h4>Booking Details</h4>
-              <p><strong>Booking ID:</strong> #TB${this.transactionDetails.bookingId}</p>
-              <p><strong>Transaction ID:</strong> ${this.transactionDetails.paymentId}</p>
-              <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
-            </div>
-          </div>
-
-          <table class="details-table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th style="text-align: right;">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <strong>Booking at ${this.hotel.name}</strong><br>
-                  <span style="font-size: 13px; color: #666;">${this.hotel.address}, ${this.hotel.city}</span><br>
-                  <span style="font-size: 13px; color: #666;">Guests: ${this.bookingForm.adults} Adults, ${this.bookingForm.children} Children</span>
-                </td>
-                <td>${this.bookingForm.checkInDate}</td>
-                <td>${this.bookingForm.checkOutDate}</td>
-                <td style="text-align: right;">₹${this.transactionDetails.amount}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="total-section">
-            <div class="total-box">
-              <div>
-                <span>Room Charges:</span>
-                <span>₹${this.transactionDetails.amount}</span>
-              </div>
-              <div>
-                <span>Taxes & Fees:</span>
-                <span>₹0.00</span>
-              </div>
-              <div class="grand-total" style="margin-top: 10px;">
-                <span>Total Paid:</span>
-                <span>₹${this.transactionDetails.amount}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="footer">
-            <p>Thank you for choosing TravelBuddy!</p>
-            <p>For any queries, contact support@travelbuddy.com</p>
-          </div>
-        </div>
-        <script>
-          window.onload = function() {
-            window.print();
-            setTimeout(function() { window.close(); }, 500);
-          }
-        </script>
-      </body>
+        <head>
+          <title>Invoice - TravelBuddy</title>
+          ${headMarkup}
+        </head>
+        <body>
+          ${invoiceMarkup}
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(function() { window.close(); }, 500);
+            }
+          </script>
+        </body>
       </html>
     `;
 
     printWindow.document.write(htmlContent);
     printWindow.document.close();
   }
-}
 
+  private updateMapUrl(): void {
+    if (!this.hotel) return;
+    const lat = this.hotel.latitude || 19.0896;
+    const lng = this.hotel.longitude || 72.8656;
+    const apiKey = environment.googleMapsApiKey;
+    const rawUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=600x300&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
+    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
+  }
+
+  private getSelectedRoom(): any | null {
+    if (!this.hotel?.rooms?.length) {
+      return null;
+    }
+
+    return this.hotel.rooms.find((room: any) => Number(room.price) === Number(this.hotel.price_per_night))
+      || this.hotel.rooms[0];
+  }
+
+  private buildPaymentPayload(selectedRoom: any | null) {
+    return {
+      hotel_id: this.hotel.id,
+      room_id: selectedRoom?.id,
+      guest_name: this.bookingForm.guestName.trim(),
+      guest_email: this.normalizedGuestEmail,
+      check_in_date: this.bookingForm.checkInDate,
+      check_out_date: this.bookingForm.checkOutDate,
+      adults: this.bookingForm.adults,
+      children: this.bookingForm.children,
+      amount: selectedRoom?.price || this.hotel.price_per_night
+    };
+  }
+}

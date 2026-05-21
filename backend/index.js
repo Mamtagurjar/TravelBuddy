@@ -1,15 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const searchRoutes = require('./routes/search');
 const paymentRoutes = require('./routes/payment');
+const bookingRoutes = require('./routes/booking');
 const { pool } = require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ─── Middleware ───────────────────────────────────────────
+// ─── Middleware ───────────────────────────────────────
 app.use(cors());
 app.use(express.json());
 
@@ -30,6 +32,7 @@ app.get('/', (req, res) => {
 // Mount routes
 app.use('/api/search', searchRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // ─── Global error handler ────────────────────────────────
 app.use((err, req, res, next) => {
@@ -42,11 +45,10 @@ app.use((err, req, res, next) => {
 });
 
 // ─── Start server ────────────────────────────────────────
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`🚀 Backend server running on http://localhost:${PORT}`);
   console.log(`📡 Search API:  http://localhost:${PORT}/api/search`);
 
-  // Test database connection on startup
   try {
     const result = await pool.query('SELECT NOW() AS current_time, current_database() AS db_name');
     const { current_time, db_name } = result.rows[0];
@@ -58,4 +60,13 @@ app.listen(PORT, async () => {
     console.error(`   Error: ${error.message}`);
     console.error(`   💡 Make sure PostgreSQL is running and .env credentials are correct.`);
   }
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Stop the existing backend process or change PORT in backend/.env.`);
+    return;
+  }
+
+  console.error(`Failed to start backend server: ${error.message}`);
 });

@@ -247,7 +247,8 @@ export class SearchBarComponent implements OnInit {
       city: this.destination(),
       adults: this.adults(),
       children: this.children(),
-      rooms: this.rooms()
+      rooms: this.rooms(),
+      page: 1
     };
 
     const cIn = formatLocalDate(this.checkIn());
@@ -256,9 +257,6 @@ export class SearchBarComponent implements OnInit {
     if (cIn) queryParams.check_in = cIn;
     if (cOut) queryParams.check_out = cOut;
 
-    this.router.navigate(['/search'], { 
-      queryParams,
-      queryParamsHandling: 'merge'
-    });
+    this.router.navigate(['/search'], { queryParams });
   }
 }

@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:api": "node backend/index.js",
+    "dev:api": "node --watch backend/index.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

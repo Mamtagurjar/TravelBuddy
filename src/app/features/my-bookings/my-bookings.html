@@ -1,0 +1,56 @@
+<div class="my-bookings">
+  <button class="back-btn" (click)="goBack()">Back</button>
+  <h1>My Bookings</h1>
+
+  @if(guestEmail){
+  <p class="guest-email">Showing bookings for {{ guestEmail }}</p>
+  }
+  @if(isLoading){
+  <div class="no-bookings">
+    <p>Loading bookings...</p>
+  </div>
+  }
+
+  @if(!isLoading && errorMessage){
+  <div class="no-bookings">
+    <p>{{ errorMessage }}</p>
+    <button class="retry-btn" (click)="retryLoadBookings()">Retry</button>
+  </div>
+  }
+
+  @if(!isLoading && !errorMessage && bookings.length === 0){
+  <div class="no-bookings">
+    <p>No Bookings Found</p>
+  </div>
+  }
+
+  @for(booking of bookings;track $index){
+  <div class="booking-card">
+    <div class="hotel-image">
+      <img [src]="booking.hotelImage || 'assets/images/placeholder-hotel.jpg'" alt="Hotel Image">
+    </div>
+    <div class="booking-details">
+      <h2>{{ booking.hotelName }}</h2>
+      <p>{{ booking.hotelLocation }}</p>
+      <p><strong>Room Type:</strong> {{ booking.roomType }}</p>
+      <p><strong>Check-in:</strong> {{ booking.checkIn | date:'mediumDate' }}</p>
+      <p><strong>Check-out:</strong> {{ booking.checkOut | date:'mediumDate' }}</p>
+      <p><strong>Guests:</strong> {{ getGuestLabel(booking) }}</p>
+      <p><strong>Total Amount:</strong> â‚¹{{ booking.totalAmount }}</p>
+      <p><strong>Booking Status:</strong> {{ booking.bookingStatus }}</p>
+      <p><strong>Payment Status:</strong> {{ booking.paymentStatus }}</p>
+      <p><strong>Booking ID:</strong> #TB{{ booking.bookingId }}</p>
+      <p><strong>Transaction ID:</strong> {{ booking.transactionId }}</p>
+
+      <div class="actions">
+        <button (click)="viewDetails(booking.bookingId)">View Details</button>
+        <button (click)="downloadInvoice(booking.bookingId)">Download Invoice</button>
+        @if(booking.bookingStatus !== 'Cancelled'){
+        <button (click)="cancelBooking(booking.bookingId)">Cancel
+          Booking</button>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>

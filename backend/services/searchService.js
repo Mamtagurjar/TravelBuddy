@@ -12,12 +12,42 @@ function parseCSV(value) {
     .filter(Boolean);
 }
 
+function addDestinationSearch(conditions, params, paramIndex, searchTerm, fields) {
+  const normalizedSearch = String(searchTerm || '').trim().toLowerCase();
+  if (!normalizedSearch) {
+    return paramIndex;
+  }
+
+  const tokens = normalizedSearch.split(/[\s,]+/).filter(Boolean);
+  const clauses = [];
+
+  const fullPhrasePlaceholder = `$${paramIndex++}`;
+  params.push(`%${normalizedSearch}%`);
+  clauses.push(
+    `(${fields.map((field) => `LOWER(${field}) LIKE ${fullPhrasePlaceholder}`).join(' OR ')})`
+  );
+
+  for (const token of tokens) {
+    if (token.length < 2) continue;
+
+    const tokenPlaceholder = `$${paramIndex++}`;
+    params.push(`%${token}%`);
+    clauses.push(
+      `(${fields.map((field) => `LOWER(${field}) LIKE ${tokenPlaceholder}`).join(' OR ')})`
+    );
+  }
+
+  if (clauses.length > 0) {
+    conditions.push(`(${clauses.join(' OR ')})`);
+  }
+
+  return paramIndex;
+}
+
 const searchResultsCache = new Map();
 const SEARCH_TTL = 2 * 60 * 1000; // 2 minutes
 
-/**
- * Build and execute the dynamic hotel search query.
- */
+
 async function searchHotels(filters) {
   // Create a unique key for this search based on all query params
   const searchKey = JSON.stringify(filters);
@@ -66,9 +96,13 @@ async function searchHotels(filters) {
   // -- Hotel-level filters --
 
   if (city) {
-    conditions.push(`(LOWER(h.city) = LOWER($${paramIndex}) OR LOWER(h.state) = LOWER($${paramIndex}))`);
-    params.push(city);
-    paramIndex++;
+    paramIndex = addDestinationSearch(
+      conditions,
+      params,
+      paramIndex,
+      city,
+      ['h.city', 'h.state', 'h.address', 'h.name']
+    );
   }
 
   if (starRatings.length > 0) {
@@ -301,9 +335,13 @@ async function getFilterOptions(city) {
   let paramIndex = 1;
 
   if (city) {
-    conditions.push(`LOWER(h.city) = LOWER($${paramIndex})`);
-    params.push(city);
-    paramIndex++;
+    paramIndex = addDestinationSearch(
+      conditions,
+      params,
+      paramIndex,
+      city,
+      ['h.city', 'h.state', 'h.address', 'h.name']
+    );
   }
 
   conditions.push(`r.is_available = TRUE`);

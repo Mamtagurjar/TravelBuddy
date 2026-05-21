@@ -572,6 +572,10 @@
 }
 
 .booking-form-card {
+  &.booking-form {
+    display: block;
+  }
+
   .form-group {
     margin-bottom: $space-4;
     
@@ -603,6 +607,13 @@
         background-color: white;
       }
     }
+  }
+
+  .form-error {
+    margin-top: 6px;
+    color: #e11d48;
+    font-size: 12px;
+    font-weight: 600;
   }
 
   .form-row {
@@ -654,6 +665,146 @@
       color: #1f2937;
       border-color: #9ca3af;
     }
+  }
+}
+
+.invoice-print-root {
+  display: none;
+}
+
+.invoice-template {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background: #fff;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #0d9488;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+
+  .invoice-logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0d9488;
+  }
+
+  .invoice-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    text-align: right;
+  }
+
+  .invoice-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px;
+  }
+
+  .details-col {
+    h4 {
+      margin: 0 0 8px 0;
+      color: #666;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 0 0 4px 0;
+      font-size: 15px;
+    }
+  }
+
+  .details-col--right {
+    text-align: right;
+  }
+
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+
+    th {
+      background: #f9fafb;
+      text-align: left;
+      padding: 12px;
+      font-weight: 600;
+      border-bottom: 2px solid #e5e7eb;
+      color: #4b5563;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+  }
+
+  .invoice-muted {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .amount-col {
+    text-align: right;
+  }
+
+  .total-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+
+  .total-box {
+    border-top: 2px solid #0d9488;
+    padding-top: 10px;
+    width: 250px;
+    text-align: right;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+  }
+
+  .grand-total {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d9488;
+  }
+
+  .invoice-footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 14px;
+    color: #9ca3af;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+
+    p {
+      margin: 0 0 6px 0;
+    }
+  }
+}
+
+@media print {
+  .invoice-template {
+    border: none;
+    box-shadow: none;
   }
 }
 

@@ -1,0 +1,37 @@
+<div class="booking-confirmation">
+  <div class="success-card">
+    <div class="success-icon">
+      <img src="assets/images/success-icon.png" alt="Success">
+    </div>
+    <h1>Congratulations {{ userName }}!</h1>
+    <p>Your booking for <strong>{{ hotelName }}</strong> is confirmed successfully.</p>
+    <p>Your payment of ₹<strong>{{ totalAmount }}</strong> has been received successfully.</p>
+    <p>We look forward to hosting you. Have a pleasant stay!</p>
+
+    <div class="booking-details">
+      <h2>Booking Details</h2>
+      <ul>
+        <li><strong>Hotel Name:</strong> {{ hotelName }}</li>
+        <li><strong>Hotel Location:</strong> {{ hotelLocation }}</li>
+        <li><strong>Room Type:</strong> {{ roomType }}</li>
+        <li><strong>Check-in Date:</strong> {{ checkInDate }}</li>
+        <li><strong>Check-out Date:</strong> {{ checkOutDate }}</li>
+        <li><strong>Number of Guests:</strong> {{ numberOfGuests }}</li>
+        <li><strong>Total Amount Paid:</strong> ₹{{ totalAmount }}</li>
+        <li><strong>Payment Status:</strong> {{ paymentStatus }}</li>
+        <li><strong>Booking ID:</strong> {{ bookingId }}</li>
+        <li><strong>Transaction ID:</strong> {{ transactionId }}</li>
+        <li><strong>Customer Name:</strong> {{ userName }}</li>
+        <li><strong>Customer Email:</strong> {{ userEmail }}</li>
+        <li><strong>Customer Phone Number:</strong> {{ userPhone }}</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button (click)="downloadInvoice()">Download Invoice</button>
+      <button (click)="viewBookings()">View My Bookings</button>
+      <button (click)="goHome()">Back to Home</button>
+    </div>
+  </div>
+</div>
+

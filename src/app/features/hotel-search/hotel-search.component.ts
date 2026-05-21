@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { distinctUntilChanged, switchMap, tap, debounceTime } from 'rxjs';
 import { HotelService } from '../../core/services/hotel.service';
-import { Hotel, FilterOptions, FilterOption, SearchFilters } from '../../core/models/hotel.model';
+import { Hotel, FilterOptions, FilterOption, SearchFilters } from '../../core/interfaces/hotel';
 import { MatSliderModule } from '@angular/material/slider';
 import { SearchBarComponent } from '../../shared/components/search-bar/search-bar';
 
@@ -20,6 +20,7 @@ export class HotelSearchComponent implements OnInit {
   hotels: Hotel[] = [];
   filters: FilterOptions | null = null;
   isLoading = true;
+  errorMessage = '';
 
   // Cache tracker
   currentCity = '';
@@ -69,37 +70,64 @@ export class HotelSearchComponent implements OnInit {
       tap(params => {
         this.searchParams = params;
         this.isLoading = true;
+        this.errorMessage = '';
         this.cdr.markForCheck();
       }),
       switchMap(params => this.hotelService.searchHotels(params))
     ).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.hotels = response.data.hotels;
-
-          // Only update filters if the city has changed
-          const newCity = this.searchParams.city || '';
-          if (newCity !== this.currentCity || !this.filters) {
-            this.filters = response.data.filters;
-            console.log(this.filters);
-            this.currentCity = newCity;
-          }
-
-          // Update Pagination State  
-          this.currentPage = response.data.pagination.page;
-          this.totalPages = response.data.pagination.totalPages;
-          this.totalResults = response.data.pagination.total;
-          this.pageSize = response.data.pagination.limit;
-        }
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      },
-      error: (err) => {
-        console.error('Search failed', err);
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      }
+      next: (response) => this.handleSearchSuccess(response),
+      error: (err) => this.handleSearchError(err)
     });
+  }
+
+  retrySearch(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.markForCheck();
+
+    this.hotelService.searchHotels(this.searchParams).subscribe({
+      next: (response) => this.handleSearchSuccess(response),
+      error: (err) => this.handleSearchError(err),
+    });
+  }
+
+  private handleSearchSuccess(response: any): void {
+    if (response.success) {
+      this.hotels = response.data.hotels;
+
+      const newCity = this.searchParams.city || '';
+      if (newCity !== this.currentCity || !this.filters) {
+        this.filters = response.data.filters;
+        this.currentCity = newCity;
+      }
+
+      this.currentPage = response.data.pagination.page;
+      this.totalPages = response.data.pagination.totalPages;
+      this.totalResults = response.data.pagination.total;
+      this.pageSize = response.data.pagination.limit;
+    } else {
+      this.hotels = [];
+      this.filters = null;
+      this.currentPage = 1;
+      this.totalPages = 1;
+      this.totalResults = 0;
+      this.errorMessage = 'Unable to load hotel data right now. Please try again.';
+    }
+
+    this.isLoading = false;
+    this.cdr.markForCheck();
+  }
+
+  private handleSearchError(err: unknown): void {
+    console.error('Search failed', err);
+    this.hotels = [];
+    this.filters = null;
+    this.currentPage = 1;
+    this.totalPages = 1;
+    this.totalResults = 0;
+    this.errorMessage = 'Unable to load hotel data. Make sure the backend server is running, then try again.';
+    this.isLoading = false;
+    this.cdr.markForCheck();
   }
 
   changePage(newPage: number): void {
@@ -143,7 +171,7 @@ export class HotelSearchComponent implements OnInit {
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { [key]: values.length ? values : null },
+      queryParams: { [key]: values.length ? values : null, page: 1 },
       queryParamsHandling: 'merge'
     });
   }
@@ -152,10 +180,18 @@ export class HotelSearchComponent implements OnInit {
    * Clears all active filters
    */
   clearFilters(): void {
-    const currentCity = this.route.snapshot.queryParams['city'];
+    const currentParams = this.route.snapshot.queryParams;
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { city: currentCity }, // Keep the city, clear the rest
+      queryParams: {
+        city: currentParams['city'] || null,
+        check_in: currentParams['check_in'] || null,
+        check_out: currentParams['check_out'] || null,
+        adults: currentParams['adults'] || null,
+        children: currentParams['children'] || null,
+        rooms: currentParams['rooms'] || null,
+        page: 1,
+      },
     });
   }
 
@@ -165,7 +201,7 @@ export class HotelSearchComponent implements OnInit {
   setFilter(key: keyof SearchFilters, value: any): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { [key]: value || null },
+      queryParams: { [key]: value || null, page: 1 },
       queryParamsHandling: 'merge'
     });
   }
