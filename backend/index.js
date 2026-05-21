@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const searchRoutes = require('./routes/search');
+const paymentRoutes = require('./routes/payment');
 const { pool } = require('./config/db');
 
 const app = express();
@@ -21,12 +22,14 @@ app.get('/', (req, res) => {
       // health: 'GET /api/health',
       search: 'GET /api/search',
       filters: 'GET /api/search/filters',
+      payments: 'POST /api/payment/create-order'
     },
   });
 });
 
-// Mount search routes
+// Mount routes
 app.use('/api/search', searchRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // ─── Global error handler ────────────────────────────────
 app.use((err, req, res, next) => {

@@ -120,19 +120,117 @@
       </div>
       } -->
 
-      <div class="price-highlights">
-        <h3>Property Highlights</h3>
-        <p>Perfect for a 1-night stay!</p>
-        <div class="highlight-item">
-          <!-- <mat-icon>location_city</mat-icon> -->
-          <!-- <span>Located in the heart of {{ hotel.city }}</span> -->
-        </div>
-        <div class="price-display">
-          <span class="amount">₹{{ hotel.price_per_night }}</span>
-          <span class="per-night">per night</span>
-        </div>
-        <button class="reserve-btn-large" (click)="bookHotel()">Reserve Now</button>
-      </div>
+      @switch (bookingState) {
+        @case ('overview') {
+          <div class="price-highlights slide-in">
+            <h3>Property Highlights</h3>
+            <p>Perfect for a 1-night stay!</p>
+            <div class="highlight-item">
+              <mat-icon>check</mat-icon>
+              <span>Instant Confirmation</span>
+            </div>
+            <div class="price-display">
+              <span class="amount">₹{{ hotel.price_per_night }}</span>
+              <span class="per-night">per night</span>
+            </div>
+            <button class="reserve-btn-large" (click)="startBooking()">Reserve Now</button>
+          </div>
+        }
+
+        @case ('bookingForm') {
+          <div class="booking-form-card slide-in">
+            <h3>Guest Details</h3>
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" [(ngModel)]="bookingForm.guestName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" [(ngModel)]="bookingForm.guestEmail" placeholder="Enter email">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Check-in</label>
+                <input type="date" [(ngModel)]="bookingForm.checkInDate">
+              </div>
+              <div class="form-group">
+                <label>Check-out</label>
+                <input type="date" [(ngModel)]="bookingForm.checkOutDate">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Adults</label>
+                <input type="number" min="1" [(ngModel)]="bookingForm.adults">
+              </div>
+              <div class="form-group">
+                <label>Children</label>
+                <input type="number" min="0" [(ngModel)]="bookingForm.children">
+              </div>
+            </div>
+            
+            <div class="price-summary">
+              <span>Total Amount:</span>
+              <strong>₹{{ hotel.price_per_night }}</strong>
+            </div>
+
+            <button class="reserve-btn-large" (click)="proceedToPayment()">
+              <mat-icon>lock</mat-icon> Proceed to Payment
+            </button>
+            <button class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
+          </div>
+        }
+
+        @case ('processing') {
+          <div class="processing-card fade-in">
+            <div class="spinner"></div>
+            <h3>Processing Payment</h3>
+            <p>Please wait while we securely connect to the payment gateway...</p>
+          </div>
+        }
+
+        @case ('success') {
+          <div class="success-card scale-in">
+            <div class="success-icon">
+              <mat-icon>check_circle</mat-icon>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p>Your booking at <strong>{{ hotel.name }}</strong> is confirmed.</p>
+            
+            <div class="transaction-details">
+              <div class="detail-row">
+                <span>Booking ID:</span>
+                <strong>#TB{{ transactionDetails?.bookingId }}</strong>
+              </div>
+              <div class="detail-row">
+                <span>Transaction ID:</span>
+                <strong>{{ transactionDetails?.paymentId }}</strong>
+              </div>
+              <div class="detail-row">
+                <span>Amount Paid:</span>
+                <strong>₹{{ transactionDetails?.amount }}</strong>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="primary-btn" (click)="downloadInvoice()"><mat-icon>download</mat-icon> Invoice</button>
+              <button class="secondary-btn" routerLink="/bookings">My Bookings</button>
+            </div>
+          </div>
+        }
+
+        @case ('failed') {
+          <div class="failed-card shake">
+            <div class="error-icon">
+              <mat-icon>error</mat-icon>
+            </div>
+            <h3>Payment Failed</h3>
+            <p>We couldn't process your payment. Please try again.</p>
+            <button class="reserve-btn-large" (click)="proceedToPayment()">Retry Payment</button>
+            <button class="cancel-btn" (click)="bookingState = 'overview'">Cancel</button>
+          </div>
+        }
+      }
 
     </div>
   </div>

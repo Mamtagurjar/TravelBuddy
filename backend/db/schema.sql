@@ -4,6 +4,7 @@
 -- ============================================================
 
 -- Drop existing tables (in reverse dependency order)
+DROP TABLE IF EXISTS payments CASCADE;
 DROP TABLE IF EXISTS bookings CASCADE;
 DROP TABLE IF EXISTS room_meal_plans CASCADE;
 DROP TABLE IF EXISTS room_amenities CASCADE;
@@ -133,3 +134,22 @@ CREATE TABLE bookings (
 CREATE INDEX idx_bookings_room_dates ON bookings (room_id, check_in_date, check_out_date);
 CREATE INDEX idx_bookings_hotel ON bookings (hotel_id);
 CREATE INDEX idx_bookings_status ON bookings (status);
+
+-- ============================================================
+-- 8. PAYMENTS — Payment gateway records (Razorpay)
+-- ============================================================
+CREATE TABLE payments (
+    id              SERIAL PRIMARY KEY,
+    booking_id      INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+    razorpay_order_id VARCHAR(255) NOT NULL,
+    razorpay_payment_id VARCHAR(255),
+    razorpay_signature VARCHAR(255),
+    amount          DECIMAL(10, 2) NOT NULL,
+    currency        VARCHAR(10) DEFAULT 'INR',
+    status          VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'successful', 'failed')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_payments_booking ON payments (booking_id);
+CREATE INDEX idx_payments_order ON payments (razorpay_order_id);
