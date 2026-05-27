@@ -13,14 +13,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   selector: 'app-search-bar',
   standalone: true,
   imports: [
-    FormsModule, 
-    MatIconModule, 
-    CommonModule, 
-    MatDatepickerModule, 
+    FormsModule,
+    MatIconModule,
+    CommonModule,
+    MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
@@ -34,6 +34,92 @@ export class SearchBarComponent implements OnInit {
   @Input() initialAdults = 2;
   @Input() initialChildren = 0;
   @Input() initialRooms = 1;
+
+  // Dropdown visibility
+  showDestDropdown = signal(false);
+  showGuestDropdown = signal(false);
+  showDateDropdown = signal(false);
+
+  /** Form state */
+  minDate = new Date(new Date().setHours(0, 0, 0, 0));
+  destination = signal('');
+
+  // Initialize with tomorrow for check-in and day-after for check-out
+  checkIn = signal<Date | null>(this.getTomorrow());
+  checkOut = signal<Date | null>(this.getDayAfterTomorrow());
+
+  /** Date Dropdown State */
+  selectedDateRange = computed(() => new DateRange(this.checkIn(), this.checkOut()));
+
+  /** Date Dropdown State */
+  activeDateTab = signal<'calendar' | 'flexible'>('calendar');
+  calendarStart = new Date();
+  calendarNext = new Date(new Date().setMonth(new Date().getMonth() + 1));
+
+  // Guest details
+  adults = signal(2);
+  children = signal(0);
+  rooms = signal(1);
+  addFlights = signal(false);
+  travelingWithPets = signal(false);
+
+  // Recent & Trending
+  recentSearches = [
+    { city: 'Mumbai', country: 'India', dates: 'Apr 16 - Apr 17', guests: '2 adults' },
+  ];
+
+  trendingDestinations = [
+    { city: 'Mumbai', country: 'India' },
+    { city: 'Pune', country: 'India' },
+    { city: 'New Delhi', country: 'India' },
+    { city: 'Bangalore', country: 'India' },
+    { city: 'Tokyo', country: 'Japan' },
+  ];
+
+  // Mock list of states/cities
+  states = [
+    'Mumbai, Maharashtra, India',
+    'Chhatrapati Shivaji International Airport Mumbai, India',
+    'Mumbai Central, Mumbai, India',
+    'The Taj Mahal Palace, Mumbai, India',
+    'Navi Mumbai, Maharashtra, India',
+    'New Delhi, Delhi, India',
+    'Bangalore, Karnataka, India',
+    'Goa, India',
+    'Rajasthan, India (Jaipur, Jodhpur)',
+    'Kerala, India (Kochi, Munnar)',
+  ];
+
+  indianStates = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal',
+  ];
 
   ngOnInit() {
     if (this.initialDestination) this.destination.set(this.initialDestination);
@@ -50,24 +136,24 @@ export class SearchBarComponent implements OnInit {
     this.showGuestDropdown.set(false);
     this.showDateDropdown.set(false);
   }
-  
+
   toggleDest(event: Event): void {
     event.stopPropagation();
-    this.showDestDropdown.update(v => !v);
+    this.showDestDropdown.update((v) => !v);
     this.showGuestDropdown.set(false);
     this.showDateDropdown.set(false);
   }
 
   toggleGuests(event: Event): void {
     event.stopPropagation();
-    this.showGuestDropdown.update(v => !v);
+    this.showGuestDropdown.update((v) => !v);
     this.showDestDropdown.set(false);
     this.showDateDropdown.set(false);
   }
 
   toggleDates(event: Event): void {
     event.stopPropagation();
-    this.showDateDropdown.update(v => !v);
+    this.showDateDropdown.update((v) => !v);
     this.showDestDropdown.set(false);
     this.showGuestDropdown.set(false);
   }
@@ -80,22 +166,6 @@ export class SearchBarComponent implements OnInit {
   closeGuestDropdown(): void {
     this.showGuestDropdown.set(false);
   }
-
-  /** Form state */
-  minDate = new Date(new Date().setHours(0,0,0,0));
-  destination = signal('');
-  
-  // Initialize with tomorrow for check-in and day-after for check-out
-  checkIn = signal<Date | null>(this.getTomorrow());
-  checkOut = signal<Date | null>(this.getDayAfterTomorrow());
-
-  /** Date Dropdown State */
-  selectedDateRange = computed(() => new DateRange(this.checkIn(), this.checkOut()));
-
-  /** Date Dropdown State */
-  activeDateTab = signal<'calendar' | 'flexible'>('calendar');
-  calendarStart = new Date();
-  calendarNext = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
   private getTomorrow(): Date {
     const d = new Date();
@@ -110,31 +180,6 @@ export class SearchBarComponent implements OnInit {
     d.setHours(0, 0, 0, 0);
     return d;
   }
-  
-  // Guest details
-  adults = signal(2);
-  children = signal(0);
-  rooms = signal(1);
-  addFlights = signal(false);
-  travelingWithPets = signal(false);
-
-  // Recent & Trending
-  recentSearches = [
-    { city: 'Mumbai', country: 'India', dates: 'Apr 16 - Apr 17', guests: '2 adults' }
-  ];
-
-  trendingDestinations = [
-    { city: 'Mumbai', country: 'India' },
-    { city: 'Pune', country: 'India' },
-    { city: 'New Delhi', country: 'India' },
-    { city: 'Bangalore', country: 'India' },
-    { city: 'Tokyo', country: 'Japan' }
-  ];
-
-  // Dropdown visibility
-  showDestDropdown = signal(false);
-  showGuestDropdown = signal(false);
-  showDateDropdown = signal(false);
 
   // Date selection logic
   onDateChange(date: Date | null): void {
@@ -156,9 +201,13 @@ export class SearchBarComponent implements OnInit {
     const cIn = this.checkIn();
     const cOut = this.checkOut();
     if (!cIn) return 'Select dates';
-    
+
     const formatDate = (date: Date) => {
-      const options: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+      const options: Intl.DateTimeFormatOptions = {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      };
       return date.toLocaleDateString('en-US', options);
     };
 
@@ -171,58 +220,35 @@ export class SearchBarComponent implements OnInit {
     const a = this.adults();
     const c = this.children();
     const r = this.rooms();
-    
+
     const adultStr = `${a} ${a === 1 ? 'adult' : 'adults'}`;
     const childStr = c > 0 ? ` · ${c} ${c === 1 ? 'child' : 'children'}` : '';
     const roomStr = ` · ${r} ${r === 1 ? 'room' : 'rooms'}`;
-    
+
     return `${adultStr}${childStr}${roomStr}`;
   });
-
-  // Mock list of states/cities
-  states = [
-    'Mumbai, Maharashtra, India',
-    'Chhatrapati Shivaji International Airport Mumbai, India',
-    'Mumbai Central, Mumbai, India',
-    'The Taj Mahal Palace, Mumbai, India',
-    'Navi Mumbai, Maharashtra, India',
-    'New Delhi, Delhi, India',
-    'Bangalore, Karnataka, India',
-    'Goa, India',
-    'Rajasthan, India (Jaipur, Jodhpur)',
-    'Kerala, India (Kochi, Munnar)',
-  ];
-
-  indianStates = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
-    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
-    'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
-    'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
-    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-    'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
-  ];
 
   filteredStates = computed(() => {
     const dest = this.destination().toLowerCase();
     if (!dest) return this.indianStates;
-    return this.indianStates.filter(s => s.toLowerCase().includes(dest));
+    return this.indianStates.filter((s) => s.toLowerCase().includes(dest));
   });
 
   filteredLocations = computed(() => {
     const dest = this.destination().toLowerCase();
     if (!dest) return this.states;
-    return this.states.filter(s => s.toLowerCase().includes(dest));
+    return this.states.filter((s) => s.toLowerCase().includes(dest));
   });
 
   // Guest increment/decrement
   updateCount(type: 'adults' | 'children' | 'rooms', amount: number, event?: Event): void {
     if (event) event.stopPropagation();
     if (type === 'adults') {
-      this.adults.update(v => Math.max(1, v + amount));
+      this.adults.update((v) => Math.max(1, v + amount));
     } else if (type === 'children') {
-      this.children.update(v => Math.max(0, v + amount));
+      this.children.update((v) => Math.max(0, v + amount));
     } else if (type === 'rooms') {
-      this.rooms.update(v => Math.max(1, v + amount));
+      this.rooms.update((v) => Math.max(1, v + amount));
     }
   }
 
@@ -248,12 +274,12 @@ export class SearchBarComponent implements OnInit {
       adults: this.adults(),
       children: this.children(),
       rooms: this.rooms(),
-      page: 1
+      page: 1,
     };
 
     const cIn = formatLocalDate(this.checkIn());
     const cOut = formatLocalDate(this.checkOut());
-    
+
     if (cIn) queryParams.check_in = cIn;
     if (cOut) queryParams.check_out = cOut;
 

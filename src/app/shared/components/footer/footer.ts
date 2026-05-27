@@ -15,7 +15,6 @@ export class FooterComponent {
     this.isLanguageModalOpen.set(true);
   }
 
-  
   closeLanguageModal(): void {
     this.isLanguageModalOpen.set(false);
   }
